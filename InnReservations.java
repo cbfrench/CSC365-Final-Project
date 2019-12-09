@@ -13,6 +13,7 @@ import java.util.List;
 import java.util.ArrayList;
 
 public class InnReservations{
+   // FR-1
    public static void roomsAndRates(Connection conn){
       Statement stmt = null;
       try{
@@ -39,6 +40,55 @@ public class InnReservations{
          System.out.println(e);
       }  
    }
+
+   // FR-4
+   public static void cancelRes(Connection conn){
+      Statement stmt = null;
+      Scanner input = new Scanner(System.in);
+      try{
+         System.out.print("Reservation Code: ");
+         String userInput = input.nextLine();
+         int resNum = Integer.parseInt(userInput);
+         stmt = conn.createStatement();
+         String query = "select * from lab7_reservations where CODE=" + Integer.toString(resNum);
+         ResultSet rs = stmt.executeQuery(query);
+         int count = 0;
+         System.out.format("| %-5s | %-4s | %-10s | %-10s | %-4s | %-20s | %-20s | %-6s | %-4s |%n", "Code", "Room", "CheckIn", "CheckOut", "Rate", "LastName", "FirstName", "Adults", "Kids");
+         while(rs.next()){
+            count++;
+            String code = rs.getString("CODE");
+            String room = rs.getString("Room");
+            String checkIn = rs.getString("CheckIn");
+            String checkOut = rs.getString("CheckOut");
+            int rate = rs.getInt("Rate");
+            String lastName = rs.getString("LastName");
+            String firstName = rs.getString("FirstName");
+            int adults = rs.getInt("Adults");
+            int kids = rs.getInt("Kids");
+            System.out.format("| %-5s | %-4s | %-10s | %-10s | %4d | %-20s | %-20s | %-6d | %-4d |%n", code, room, checkIn, checkOut, rate, lastName, firstName, adults, kids);
+         }
+         if(count==0){
+            System.out.println("No record of reservation with given code");
+            return;
+         }
+         System.out.print("\nConfirm Cancellation? (y/n): ");
+         userInput = input.nextLine();
+         switch(userInput){
+            case "y":
+               stmt = conn.createStatement();
+               query = "delete from lab7_reservations where CODE=" + Integer.toString(resNum);
+               stmt.executeUpdate(query);
+               System.out.println("Cancellation Confirmed");
+               break;
+            default:
+               break;
+         }
+      }
+      catch(Exception e){
+         System.out.println(e);
+      }
+   }
+
    public static void menu(Connection conn){
       Scanner input = new Scanner(System.in);
       System.out.print(">");
@@ -46,6 +96,9 @@ public class InnReservations{
       switch(userInput){
          case "pop":
             roomsAndRates(conn);
+            break;
+         case "cancel":
+            cancelRes(conn);
             break;
          default:
             System.out.println("AHH");
