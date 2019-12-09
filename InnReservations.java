@@ -41,6 +41,66 @@ public class InnReservations{
       }  
    }
 
+   // FR-2
+   public static void bookRes(Connection conn){
+      Statement stmt = null;
+      Scanner input = new Scanner(System.in);
+      try{
+         stmt = conn.createStatement();
+         System.out.print("First Name: ");
+         String firstName = input.nextLine();
+         System.out.print("Last Name: ");
+         String lastName = input.nextLine();
+         System.out.println("Room Code ('any' for no preference): ");
+         String roomCode = input.nextLine();
+         System.out.println("Bed Type ('any' for no preference): ");
+         String bedType = input.nextLine();
+         System.out.println("Start Date (yyyy-mm-dd): ");
+         String startDate = input.nextLine();
+         System.out.println("End Date (yyyy-mm-dd): ");
+         String endDate = input.nextLine();
+         System.out.println("Number of Children: ");
+         String children = input.nextLine();
+         System.out.println("Number of Adults: ");
+         String adults = input.nextLine();
+         int childrenNum = Integer.parseInt(children);
+         int adultNum = Integer.parseInt(adults);
+         int occ = childrenNum + adultNum;
+         int count = 0;
+         String whereClause = "where ((CheckIn < '" + endDate + "' and CheckOut >= '" + endDate + "') or (CheckIn < '" + startDate + "' and CheckOut >= '" + startDate + "')) and maxOcc>=" + Integer.toString(occ);
+         String optionalWhere = "";
+         if(!roomCode.equals("any")){
+            optionalWhere += " and RoomCode='" + roomCode + "'";
+         }
+         if(!bedType.equals("any")){
+            optionalWhere += " and bedType='" + bedType + "'";
+         }
+         String query = "select * from lab7_rooms where RoomCode not in (select Room from lab7_reservations join lab7_rooms on Room=RoomCode " + whereClause + ")" + optionalWhere;
+         System.out.println(query);
+         ResultSet rs = stmt.executeQuery(query);
+         int maximumOccupancy = 0;
+         while(rs.next()){
+            roomCode = rs.getString("RoomCode");
+            String roomName = rs.getString("RoomName");
+            int beds = rs.getInt("Beds");
+            bedType = rs.getString("bedType");
+            int maxOcc = rs.getInt("maxOcc");
+            int basePrice = rs.getInt("basePrice");
+            String decor = rs.getString("decor");
+            System.out.format("| %-8s | %-30s | %4d | %-10s | %6d | %9d | %-15s |%n", roomCode, roomName, beds, bedType, maxOcc, basePrice, decor);
+            if(maxOcc > maximumOccupancy){
+               maximumOccupancy = maxOcc;
+            }
+         }
+         if(maximumOccupancy < occ){
+            System.out.println("We're sorry, we are unable to room a party of your size in only one room");
+         }
+      }
+      catch(Exception e){
+         System.out.println(e);
+      }  
+   }
+
    // FR-4
    public static void cancelRes(Connection conn){
       Statement stmt = null;
@@ -96,6 +156,9 @@ public class InnReservations{
       switch(userInput){
          case "pop":
             roomsAndRates(conn);
+            break;
+         case "book":
+            bookRes(conn);
             break;
          case "cancel":
             cancelRes(conn);
