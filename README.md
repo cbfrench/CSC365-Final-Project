@@ -8,3 +8,6 @@ export JDBC_USER=cbfrench
 
 export JDBC_PASS=CSC365-F2019_010176487
 
+
+#FD 1 works
+enter 'pop' at the command prompt, currently in one long line, might break up later to make code prettier
