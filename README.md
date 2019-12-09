@@ -9,5 +9,8 @@ export JDBC_USER=cbfrench
 export JDBC_PASS=CSC365-F2019_010176487
 
 
-#FD 1 works
+#FR-1
 enter 'pop' at the command prompt, currently in one long line, might break up later to make code prettier
+
+#FR-4
+enter 'cancel' at the command prompt, then enter the reservation code, y to confirm and delete record, anything else fails
