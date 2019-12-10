@@ -17,11 +17,11 @@ import java.util.ArrayList;
 public class InnReservations{
    // FR-1
    public static void roomsAndRates(Connection conn){
-      Statement stmt = null;
+      PreparedStatement pstmt = null;
       try{
-         stmt = conn.createStatement();
          String query = "select RoomCode, RoomName, Beds, bedType, maxOcc, basePrice, decor, popularity, nextCheckIn, lastCheckOut, lastStay from ( select D.RoomCode, D.RoomName, D.Beds, D.bedType, D.maxOcc, D.basePrice, D.decor, D.popularity, D.CheckOut nextCheckIn, E.CheckOut lastCheckOut, DATEDIFF(E.CheckOut, E.CheckIn) lastStay, rank() over (partition by RoomCode order by E.CheckOut desc) revDateRank from ( select * from ( select *, rank() over (partition by RoomCode order by CheckOut) dateRank from ( select *, round(times/180,2) popularity from ( select Room selectedRoom, count(*) times from lab7_reservations where DATEDIFF(CURRENT_DATE, CheckIn) <= 180 group by selectedRoom ) as A join lab7_rooms on RoomCode=selectedRoom ) as B join lab7_reservations on Room=RoomCode where CheckOut > CURRENT_DATE ) as C where dateRank=1 ) as D join ( select * from lab7_reservations r where CheckOut < CURRENT_DATE ) as E on E.Room=RoomCode order by selectedRoom, revDateRank ) as F where revDateRank=1 order by popularity desc";
-         ResultSet rs = stmt.executeQuery(query);
+         pstmt = conn.prepareStatement(query);
+         ResultSet rs = pstmt.executeQuery();
          System.out.format("| %-8s | %-30s | %-4s | %-10s | %-6s | %-9s | %-15s | %-4s | %11s | %12s | %9s |%n", "RoomCode", "RoomName", "Beds", "bedType", "maxOcc", "basePrice", "decor", "pop", "nextCheckIn", "lastCheckOut", "lastStay");
          while(rs.next()){
             String roomCode = rs.getString("RoomCode");
@@ -44,12 +44,11 @@ public class InnReservations{
    }
 
    // FR-2
-   public static void bookRes(Connection conn){
-      Statement stmt = null;
-      Scanner input = new Scanner(System.in);
+   public static void bookRes(Connection conn, Scanner input){
+      PreparedStatement pstmt = null;
       try{
-         stmt = conn.createStatement();
-         ResultSet rs = stmt.executeQuery("select * from lab7_reservations");
+         pstmt = conn.prepareStatement("select * from lab7_reservations");
+         ResultSet rs = pstmt.executeQuery();
          int maxRes = 0;
          while(rs.next()){
             int resNum = rs.getInt("CODE");
@@ -62,9 +61,9 @@ public class InnReservations{
          String firstName = input.nextLine();
          System.out.print("Last Name: ");
          String lastName = input.nextLine();
-         System.out.println("Room Code ('any' for no preference): ");
+         System.out.println("Room Code (blank for no preference): ");
          String roomCode = input.nextLine();
-         System.out.println("Bed Type ('any' for no preference): ");
+         System.out.println("Bed Type (blank for no preference): ");
          String bedType = input.nextLine();
          System.out.println("Start Date (yyyy-mm-dd): ");
          String startDate = input.nextLine();
@@ -79,16 +78,20 @@ public class InnReservations{
          int occ = childrenNum + adultNum;
          int count = 0;
          boolean found = false;
-         String whereClause = "where (CheckIn <= '" + endDate + "' and CheckOut > '" + startDate + "') and maxOcc>=" + Integer.toString(occ);
          String optionalWhere = "";
-         if(!roomCode.equals("any")){
+         if(!roomCode.isEmpty()){
             optionalWhere += " and RoomCode='" + roomCode + "'";
          }
-         if(!bedType.equals("any")){
+         if(!bedType.isEmpty()){
             optionalWhere += " and bedType='" + bedType + "'";
          }
-         String query = "select *, rank() over (order by RoomCode) roomOption from lab7_rooms where RoomCode not in (select Room from lab7_reservations join lab7_rooms on Room=RoomCode " + whereClause + ")" + optionalWhere;
-         rs = stmt.executeQuery(query);
+         String query = "select *, rank() over (order by RoomCode) roomOption from lab7_rooms where RoomCode not in (select Room from lab7_reservations join lab7_rooms on Room=RoomCode where (CheckIn <= ? and CheckOut > ?) and maxOcc >= ?)";
+         query += optionalWhere;
+         pstmt = conn.prepareStatement(query);
+         pstmt.setString(1, endDate);
+         pstmt.setString(2, startDate);
+         pstmt.setInt(3, occ);
+         rs = pstmt.executeQuery();
          int maximumOccupancy = 0;
          ArrayList<String[]> rooms = new ArrayList<String[]>();
          while(rs.next()){
@@ -113,16 +116,17 @@ public class InnReservations{
             }
          }
          if(count == 0){
-            stmt = conn.createStatement();
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
             Calendar c = Calendar.getInstance();
             c.setTime(sdf.parse(startDate));
             c.add(Calendar.DAY_OF_MONTH, 3);
             endDate = sdf.format(c.getTime());
             System.out.println("\nCould not find a matching room during this interval, instead showing rooms between " + startDate + " and " + endDate);
-            whereClause = "where (Checkin <= '" + endDate + "' and CheckOut > '" + startDate + "') and maxOcc>=" + Integer.toString(occ);
-            query = "select *, rank() over(order by RoomCode) roomOption from lab7_rooms where RoomCode not in (select Room from lab7_rooms join lab7_reservations on Room=RoomCode " + whereClause + ")";
-            rs = stmt.executeQuery(query);
+            pstmt = conn.prepareStatement("select *, rank() over(order by RoomCode) roomOption from lab7_rooms where RoomCode not in (select Room from lab7_rooms join lab7_reservations on Room=RoomCode where (CheckIn <= ? and CheckOut > ?) and maxOcc >= ?)");
+            pstmt.setString(1, endDate);
+            pstmt.setString(2, startDate);
+            pstmt.setInt(3, occ);
+            rs = pstmt.executeQuery();
             while(rs.next()){
                count++;
                found = true;
@@ -182,11 +186,18 @@ public class InnReservations{
             String confirmation = input.nextLine();
             switch(confirmation){
                case "y":
-                  stmt = conn.createStatement();
                   String reservationCode = Integer.toString(maxRes);
-                  query = "insert into lab7_reservations (Code, Room, CheckIn, CheckOut, Rate, LastName, FirstName, Adults, Kids) values (" + reservationCode + ", '" + chosenRoom[0] + "', '" + startDate + "', '" + endDate + "', " + chosenRoom[3] + ", '" + lastName.toUpperCase() + "', '" + firstName.toUpperCase() + "', " + adults + ", " + children + ");";
-                  System.out.println(query);
-                  stmt.executeUpdate(query);
+                  pstmt = conn.prepareStatement("insert into lab7_reservations (Code, Room, CheckIn, CheckOut, Rate, LastName, FirstName, Adults, Kids) values (?, ?, ?, ?, ?, ?, ?, ?, ?);");
+                  pstmt.setString(1, reservationCode);                  
+                  pstmt.setString(2, chosenRoom[0]);
+                  pstmt.setString(3, startDate);
+                  pstmt.setString(4, endDate); 
+                  pstmt.setInt(5, bp);
+                  pstmt.setString(6, lastName.toUpperCase());
+                  pstmt.setString(7, firstName.toUpperCase());
+                  pstmt.setInt(8, adultNum);
+                  pstmt.setInt(9, childrenNum);
+                  pstmt.executeUpdate();
                   System.out.println("Reservation Confirmed");
                   System.out.println("Reservation Code: " + reservationCode);
                   break;
@@ -200,17 +211,158 @@ public class InnReservations{
       }  
    }
 
+   // FR-3
+   public static void alterRes(Connection conn, Scanner input){
+      PreparedStatement pstmt = null;
+      try{
+         pstmt = conn.prepareStatement("select * from lab7_reservations where Code = ?");
+         System.out.println("Enter your reservation code: ");
+         String code = input.nextLine();
+         pstmt.setString(1, code);
+         String room = "";
+         String checkIn = "";
+         String checkOut = "";
+         int rate = 0;
+         String lastName = "";
+         String firstName = "";
+         int adults = 0;
+         int children = 0;
+         ResultSet rs = pstmt.executeQuery();
+         System.out.format("| %-5s | %-4s | %-10s | %-10s | %-4s | %-20s | %-20s | %-6s | %-4s |%n", "Code", "Room", "CheckIn", "CheckOut", "Rate", "LastName", "FirstName", "Adults", "Kids");
+         while(rs.next()){
+            room = rs.getString("Room");
+            checkIn = rs.getString("CheckIn");
+            checkOut = rs.getString("CheckOut");
+            rate = rs.getInt("Rate");
+            lastName = rs.getString("LastName");
+            firstName = rs.getString("FirstName");
+            adults = rs.getInt("Adults");
+            children = rs.getInt("Kids");
+            System.out.format("| %-5s | %-4s | %-10s | %-10s | %4d | %-20s | %-20s | %-6d | %-4d |%n", code, room, checkIn, checkOut, rate, lastName, firstName, adults, children);
+         }
+         System.out.println("\nUpdating this reservation, leave blank if no change requested for a given field");
+         System.out.println("First Name: ");
+         String newFirstName = input.nextLine();
+         System.out.println("Last Name: ");
+         String newLastName = input.nextLine();
+         System.out.println("Start Date(yyyy-MM-dd): ");
+         String newCheckIn = input.nextLine();
+         System.out.println("End Date(yyyy-MM-dd): ");
+         String newCheckOut = input.nextLine();
+         System.out.println("Children: ");
+         String newChildren = input.nextLine();
+         System.out.println("Adults: ");
+         String newAdults = input.nextLine();
+         boolean changeFound = false;
+         boolean dateChange = false;
+         if(!newFirstName.isEmpty()){
+            changeFound = true;
+            firstName = newFirstName.toUpperCase();
+         }   
+         if(!newLastName.isEmpty()){
+            changeFound = true;
+            lastName = newLastName.toUpperCase();
+         }
+         if(!newCheckIn.isEmpty()){
+            changeFound = true;
+            checkIn = newCheckIn;
+            dateChange = true;
+         }
+         if(!newCheckOut.isEmpty()){
+            changeFound = true;
+            checkOut = newCheckOut;
+            dateChange = true;
+         }
+         if(!newChildren.isEmpty()){
+            changeFound = true;
+            children = Integer.parseInt(newChildren);
+         }
+         if(!newAdults.isEmpty()){
+            changeFound = true;
+            adults = Integer.parseInt(newAdults);
+         }
+         if(!changeFound){
+            System.out.println("Reservation change cancelled");
+            return;
+         }
+         if(dateChange){
+            String query = "select *, rank() over (order by RoomCode) roomOption from lab7_rooms where RoomCode not in (select Room from lab7_reservations join lab7_rooms on Room=RoomCode where (CheckIn <= ? and CheckOut > ?)) where Room = ?";        
+            pstmt = conn.prepareStatement(query);
+            pstmt.setString(1, checkOut);
+            pstmt.setString(2, checkIn);
+            pstmt.setString(3, room);
+            rs = pstmt.executeQuery();
+            int count = 0;
+            while(rs.next()){
+               count++;
+            }
+            if(count == 0){
+               System.out.println("Date was not able to be rescheduled due to existing reservation");
+            }
+            else{
+               System.out.format("| %-5s | %-4s | %-10s | %-10s | %-4s | %-20s | %-20s | %-6s | %-4s |%n", "Code", "Room", "CheckIn", "CheckOut", "Rate", "LastName", "FirstName", "Adults", "Kids");
+               System.out.format("| %-5s | %-4s | %-10s | %-10s | %4d | %-20s | %-20s | %-6d | %-4d |%n", code, room, checkIn, checkOut, rate, lastName, firstName, adults, children);
+               System.out.println("Confirm Changes? (y/n): ");
+               String confirmation = input.nextLine();
+               switch(confirmation){
+                  case "y":
+                     pstmt = conn.prepareStatement("update lab7_reservations set FirstName = ?, LastName = ?, CheckIn = ?, CheckOut = ?, Kids = ?, Adults = ? where Code = ?");
+                     pstmt.setString(1, firstName);
+                     pstmt.setString(2, lastName);
+                     pstmt.setString(3, checkIn);
+                     pstmt.setString(4, checkOut);
+                     pstmt.setInt(5, children);
+                     pstmt.setInt(6, adults);
+                     pstmt.setString(7, code);
+                     pstmt.executeUpdate();
+                     System.out.println("Change Completed");
+                     break;
+                  default:
+                     System.out.println("Reservation change cancelled");
+                     break;
+               }
+            }
+         }
+         else{
+            System.out.format("| %-5s | %-4s | %-10s | %-10s | %-4s | %-20s | %-20s | %-6s | %-4s |%n", "Code", "Room", "CheckIn", "CheckOut", "Rate", "LastName", "FirstName", "Adults", "Kids");
+            System.out.format("| %-5s | %-4s | %-10s | %-10s | %4d | %-20s | %-20s | %-6d | %-4d |%n", code, room, checkIn, checkOut, rate, lastName, firstName, adults, children);
+            System.out.println("Confirm Changes? (y/n): ");
+            String confirmation = input.nextLine();
+            switch(confirmation){
+               case "y":
+                  pstmt = conn.prepareStatement("update lab7_reservations set FirstName = ?, LastName = ?, CheckIn = ?, CheckOut = ?, Kids = ?, Adults = ? where Code = ?");
+                  pstmt.setString(1, firstName);
+                  pstmt.setString(2, lastName);
+                  pstmt.setString(3, checkIn);
+                  pstmt.setString(4, checkOut);
+                  pstmt.setInt(5, children);
+                  pstmt.setInt(6, adults);
+                  pstmt.setString(7, code);
+                  pstmt.executeUpdate();
+                  System.out.println("Change Completed");
+                  break;
+               default:
+                  System.out.println("Reservation change cancelled");
+                  break;
+            }
+         }
+      }
+      catch(Exception e){
+         System.out.println(e);
+      } 
+        
+   }
+
    // FR-4
-   public static void cancelRes(Connection conn){
-      Statement stmt = null;
-      Scanner input = new Scanner(System.in);
+   public static void cancelRes(Connection conn, Scanner input){
+      PreparedStatement pstmt = null;
       try{
          System.out.print("Reservation Code: ");
          String userInput = input.nextLine();
          int resNum = Integer.parseInt(userInput);
-         stmt = conn.createStatement();
-         String query = "select * from lab7_reservations where CODE=" + Integer.toString(resNum);
-         ResultSet rs = stmt.executeQuery(query);
+         pstmt = conn.prepareStatement("select * from lab7_reservations where CODE = ?");
+         pstmt.setString(1, Integer.toString(resNum));
+         ResultSet rs = pstmt.executeQuery();
          int count = 0;
          System.out.format("| %-5s | %-4s | %-10s | %-10s | %-4s | %-20s | %-20s | %-6s | %-4s |%n", "Code", "Room", "CheckIn", "CheckOut", "Rate", "LastName", "FirstName", "Adults", "Kids");
          while(rs.next()){
@@ -234,9 +386,9 @@ public class InnReservations{
          userInput = input.nextLine();
          switch(userInput){
             case "y":
-               stmt = conn.createStatement();
-               query = "delete from lab7_reservations where CODE=" + Integer.toString(resNum);
-               stmt.executeUpdate(query);
+               pstmt = conn.prepareStatement("delete from lab7_reservations where CODE = ?");
+               pstmt.setString(1, Integer.toString(resNum));
+               pstmt.executeUpdate();
                System.out.println("Cancellation Confirmed");
                break;
             default:
@@ -257,10 +409,13 @@ public class InnReservations{
             roomsAndRates(conn);
             break;
          case "book":
-            bookRes(conn);
+            bookRes(conn, input);
+            break;
+         case "change":
+            alterRes(conn, input);
             break;
          case "cancel":
-            cancelRes(conn);
+            cancelRes(conn, input);
             break;
          default:
             System.out.println("AHH");
@@ -275,14 +430,6 @@ public class InnReservations{
       Statement stmt = null;
       try{
          conn = DriverManager.getConnection(jdbcUrl, dbUser, dbPass);
-         /*stmt = conn.createStatement();
-         ResultSet rs = stmt.executeQuery("SELECT * FROM INN.rooms");
-         while (rs.next()){
-            String rc = rs.getString("RoomCode");
-            String rn = rs.getString("RoomName");
-            int bp = rs.getInt("basePrice");
-            System.out.format("%3s %30s %d %n", rc, rn, bp);
-         }*/
          while(true){
             menu(conn);
          }
