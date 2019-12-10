@@ -21,4 +21,6 @@ enter `book` at the command prompt, then follow prompts, currently shows a three
 enter `change` at the command prompt, then enter the reservation code, enter in details that should be changed, then hit `y` to confirm, still need to do error handling with incorrect reservation code
 ##### FR-4
 enter `cancel` at the command prompt, then enter the reservation code, `y` to confirm and delete record, anything else fails
+##### FR-5
+enter 'search' at the command prompt, then enter the any combination of first name, last name, date range (must enter both start and end dates OR none), room code, and reservation code.
 
