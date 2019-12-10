@@ -1,13 +1,16 @@
 # CSC 365 Final Project
 *Connor French and Kelly Wong*
-___
+
 ### Running
 to run, use this in command line from this directory:
+
 `java -cp mysql-connector-java-8.0.18/mysql-connector-java-8.0.18.jar:. InnReservations`
 
 ### Environment Variables
 `export JDBC_URL=jdbc:mysql://db.labthreesixfive.com/cbfrench?autoReconnect=true\&useSSL=false`
+
 `export JDBC_USER=cbfrench`
+
 `export JDBC_PASS=CSC365-F2019_010176487`
 ### Instructions
 ##### FR-1

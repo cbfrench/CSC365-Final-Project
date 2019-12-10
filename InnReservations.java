@@ -227,9 +227,11 @@ public class InnReservations{
          String firstName = "";
          int adults = 0;
          int children = 0;
+         int checkCount = 0;
          ResultSet rs = pstmt.executeQuery();
          System.out.format("| %-5s | %-4s | %-10s | %-10s | %-4s | %-20s | %-20s | %-6s | %-4s |%n", "Code", "Room", "CheckIn", "CheckOut", "Rate", "LastName", "FirstName", "Adults", "Kids");
          while(rs.next()){
+            checkCount = 0;
             room = rs.getString("Room");
             checkIn = rs.getString("CheckIn");
             checkOut = rs.getString("CheckOut");
@@ -239,6 +241,10 @@ public class InnReservations{
             adults = rs.getInt("Adults");
             children = rs.getInt("Kids");
             System.out.format("| %-5s | %-4s | %-10s | %-10s | %4d | %-20s | %-20s | %-6d | %-4d |%n", code, room, checkIn, checkOut, rate, lastName, firstName, adults, children);
+         }
+         if(checkCount == 0){
+            System.out.println("No reservation exists with given reservation code");
+            return;
          }
          System.out.println("\nUpdating this reservation, leave blank if no change requested for a given field");
          System.out.println("First Name: ");
