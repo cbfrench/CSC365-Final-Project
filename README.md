@@ -22,5 +22,7 @@ enter `change` at the command prompt, then enter the reservation code, enter in 
 ##### FR-4
 enter `cancel` at the command prompt, then enter the reservation code, `y` to confirm and delete record, anything else fails
 ##### FR-5
-enter 'search' at the command prompt, then enter the any combination of first name, last name, date range (must enter both start and end dates OR none), room code, and reservation code.
+enter 'search' at the command prompt, then enter the any combination of first name, last name, date range (must enter both start and end dates OR none), room code, and reservation code.  <still need to do error handling on incorrect inputs>
+##### FR-6
+enter 'revenue' at the command prompt for revenue summary
 
