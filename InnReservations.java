@@ -13,6 +13,7 @@ import java.util.List;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class InnReservations{
    // FR-1
@@ -415,8 +416,7 @@ public class InnReservations{
       try {
          stmt = conn.createStatement();
          Scanner input = new Scanner(System.in);
-         boolean firstWhere = false;
-         boolean oneDate = false;
+         int firstWhere = 0;
 
          System.out.println("Search Options: Firstname, Lastname, DateRange, RoomCode, ReservationCode");
 
@@ -467,31 +467,34 @@ public class InnReservations{
 
          String whereClause = "where ";
 
+         if (!FirstName.equals("any")) {
+            whereClause += "FirstName like '" + FirstName + "%'";
+            firstWhere = 1;
+         }
 
          if (!LastName.equals("any")) {
-            firstWhere = true;
-            whereClause += "LastName like'" + LastName + "%'";
-
-         }
-
-         if (!FirstName.equals("any")) {
-            if (firstWhere) {
+            if (firstWhere == 1) {
                whereClause += " and ";
             }
-            whereClause += "FirstName like '" + FirstName + "%'";
+            firstWhere = 1;
+            whereClause += "LastName like '" + LastName + "%'";
+
          }
+
 
          if (!RoomCode.equals("any")) {
-            if (firstWhere) {
+            if (firstWhere == 1) {
                whereClause += " and ";
             }
-            whereClause += "Room like " + RoomCode + "%'";
+            firstWhere = 1;
+            whereClause += "Room like '" + RoomCode + "%'";
          }
 
          if (!ResCode.equals("any")) {
-            if (firstWhere) {
+            if (firstWhere == 1) {
                whereClause += " and ";
             }
+            firstWhere = 1;
             whereClause += "Code like '" + ResCode + "%'";
          }
 
@@ -499,7 +502,7 @@ public class InnReservations{
          // each room that was occupied between 8/17 - 8/20
          //different date range possibilities
          if (!StartDate.equals("any") && !EndDate.equals("any")){
-            if (firstWhere) {
+            if (firstWhere == 1) {
                whereClause += " and ";
             }
             whereClause += " (CheckIn <= '" + StartDate + "' and CheckOut >= '" + EndDate + "')";
@@ -508,7 +511,6 @@ public class InnReservations{
 
          String query = "select * from lab7_reservations " + whereClause + ";";
          System.out.println(query);
-
          ResultSet rs = stmt.executeQuery(query);
 
          System.out.format("| %-5s | %-4s | %-10s | %-10s | %-4s | %-20s | %-20s | %-6s | %-4s |%n", "Code", "Room", "CheckIn", "CheckOut", "Rate", "LastName", "FirstName", "Adults", "Kids");
@@ -524,7 +526,176 @@ public class InnReservations{
             int kids = rs.getInt("Kids");
             System.out.format("| %-5s | %-4s | %-10s | %-10s | %4d | %-20s | %-20s | %-6d | %-4d |%n", code, room, checkIn, checkOut, rate, lastName, firstName, adults, kids);
          }
+
       } catch(Exception e){
+         System.out.println(e);
+      }
+
+   }
+
+   public static void getRevenue(Connection conn){
+      Statement stmt = null;
+      Statement stmt2 = null;
+
+      try {
+         stmt = conn.createStatement();
+         stmt2 = conn.createStatement();
+         Scanner input = new Scanner(System.in);
+
+         String createTable = "create table  IF NOT EXISTS revenue (\n" +
+                 "\n" +
+                 "Room            CHAR(10),\n" +
+                 "January         DECIMAL(10,2),\n" +
+                 "February        DECIMAL(10,2),\n" +
+                 "March           DECIMAL(10,2),\n" +
+                 "April           DECIMAL(10,2),\n" +
+                 "May             DECIMAL(10,2),\n" +
+                 "June            DECIMAL(10,2),\n" +
+                 "July            DECIMAL(10,2),\n" +
+                 "August          DECIMAL(10,2),\n" +
+                 "September       DECIMAL(10,2),\n" +
+                 "October         DECIMAL(10,2),\n" +
+                 "November       DECIMAL(10,2),\n" +
+                 "December        DECIMAL(10,2),\n" +
+                 "YearRevenue    DECIMAL(10,2),\n" +
+                 "\n" +
+                 "PRIMARY KEY (Room)\n" +
+                 ");";
+
+         stmt.executeUpdate(createTable);
+         //*******************************************************//
+
+         String query2 = "SELECT room, MONTHNAME(STR_TO_DATE(month_checkin, '%m')), ROUND(SUM(MonthRev),0) as MonthRevenue\n" +
+                 "FROM (\n" +
+                 "    (SELECT room, month_checkin, SUM(CheckInMonthRev) as MonthRev\n" +
+                 "    from (\n" +
+                 "        (select room,\n" +
+                 "            MONTH(checkin) as month_checkin, \n" +
+                 "        \n" +
+                 "            SUM(ROUND( (DATEDIFF(LAST_DAY(checkin), checkin)+1) * Rate,2)) as CheckInMonthRev\n" +
+                 "            \n" +
+                 "        from lab7_reservations\n" +
+                 "        where MONTH(checkin) != MONTH(checkout)\n" +
+                 "        GROUP BY MONTH(checkin), MONTH(checkout), room\n" +
+                 "        order by room, month_checkin)\n" +
+                 "        \n" +
+                 "        UNION ALL\n" +
+                 "        \n" +
+                 "        \n" +
+                 "        (select room,\n" +
+                 "            MONTH(checkout) as month_checkin,\n" +
+                 "            SUM(ROUND((DAY(checkout) - 1) * Rate,2)) as CheckInMonthRev\n" +
+                 "        from lab7_reservations\n" +
+                 "        where MONTH(checkin) != MONTH(checkout)\n" +
+                 "        GROUP BY MONTH(checkin), MONTH(checkout), room\n" +
+                 "        order by room, month_checkin)\n" +
+                 "    ) as a1\n" +
+                 "    GROUP BY room, month_checkin\n" +
+                 "    ORDER BY month_checkin\n" +
+                 "    )\n" +
+                 "    \n" +
+                 "    UNION ALL\n" +
+                 "    \n" +
+                 "    (select room, \n" +
+                 "            MONTH(checkin) as month_checkin, \n" +
+                 "            SUM(ROUND(DATEDIFF(checkout,checkin) * Rate,2)) as MonthRev\n" +
+                 "        from lab7_reservations\n" +
+                 "        where MONTH(checkin) = MONTH(checkout)\n" +
+                 "        GROUP BY MONTH(checkin), MONTH(checkout), room\n" +
+                 "        order by room, month_checkin\n" +
+                 "    )\n" +
+                 ") as m1\n" +
+                 "GROUP BY room, month_checkin\n" +
+                 "ORDER BY room, month_checkin\n" +
+                 "        \n" +
+                 ";";
+
+
+
+         ResultSet rs = stmt.executeQuery(query2);
+
+
+         int count = 0;
+         float sum = 0;
+         String revz = "";
+
+
+         while (rs.next()) {
+            String m_revenue = rs.getString("MonthRevenue");
+            String room = rs.getString("Room");
+            if (count == 11){
+               revz = revz + m_revenue;
+               sum = sum + Float.parseFloat(m_revenue);
+               String query3 = "INSERT INTO revenue(Room, January, February, March, April, May, June, July, August, September, October, November, December, YearRevenue) VALUES(" + "'" + room + "'" + ", " + revz + ", " + sum + ");";
+               //System.out.println(qq);
+
+               stmt2.executeUpdate(query3);
+               revz = "";
+               count = 0;
+            }
+            else {
+               sum = sum + Float.parseFloat(m_revenue);
+               revz = revz  + m_revenue + ", ";
+               count++;
+            }
+
+         }
+
+         String query4 = "INSERT INTO revenue(Room, January, February, March, April, \n" +
+                 "May, June, July, August, September, October, \n" +
+                 "November, December, YearRevenue)\n" +
+                 "SELECT Room, Jan, Feb, Mar, Apr, May, Jun, Jul, Aug, Sep, Oct, Nov, Decem, Rev\n" +
+                 "FROM(\n" +
+                 "\n" +
+                 "    SELECT 'Total' as Room,\n" +
+                 "    ROUND(SUM(January),0) as Jan, \n" +
+                 "    ROUND(SUM(February),0) as Feb, \n" +
+                 "    ROUND(SUM(March),0) as Mar,\n" +
+                 "        ROUND(SUM(April),0) as Apr,\n" +
+                 "        ROUND(SUM(May),0) as May,\n" +
+                 "        ROUND(SUM(June),0) as Jun,\n" +
+                 "        ROUND(SUM(July),0) as Jul,\n" +
+                 "        ROUND(SUM(August),0) as Aug,\n" +
+                 "        ROUND(SUM(September),0) as Sep,\n" +
+                 "        ROUND(SUM(October),0) as Oct,\n" +
+                 "        ROUND(SUM(November),0) as Nov,\n" +
+                 "        ROUND(SUM(December),0) as Decem,\n" +
+                 "        ROUND(SUM(YearRevenue),0) as Rev\n" +
+                 "    from revenue\n" +
+                 "    ) as w1;";
+
+         stmt.executeUpdate(query4);
+
+         String query5 = "select * from revenue";
+         ResultSet rs2 = stmt.executeQuery(query5);
+
+         System.out.format("| %-8s | %-8s | %-8s | %-8s | %-8s | %-8s | %-8s| %-8s| %-8s | %-8s | %-8s | %-8s | %-8s | %-8s |%n", "Room", "January", "February", "March",
+                 "April", "May", "June", "July", "August", "September", "October", "November", "December", "YearRevenue");
+         while (rs2.next()) {
+            String room = rs2.getString("Room");
+            String January = rs2.getString("January");
+            String February = rs2.getString("February");
+            String March = rs2.getString("March");
+            String April = rs2.getString("April");
+            String May = rs2.getString("May");
+            String June = rs2.getString("June");
+            String July = rs2.getString("July");
+            String August = rs2.getString("August");
+            String September = rs2.getString("September");
+            String October = rs2.getString("October");
+            String November = rs2.getString("November");
+            String December = rs2.getString("December");
+            String YearRevenue = rs2.getString("YearRevenue");
+
+            System.out.format("| %-8s | %-8s | %-8s | %-8s | %-8s | %-8s | %-8s| %-8s| %-8s | %-8s | %-8s | %-8s | %-8s | %-8s |%n", room, January, February, March,
+                    April, May, June, July, August, September, October, November, December, YearRevenue);
+         }
+
+         String deleteTable = "drop table revenue;";
+         stmt.executeUpdate(deleteTable);
+
+
+      } catch (Exception e){
          System.out.println(e);
       }
 
@@ -551,15 +722,19 @@ public class InnReservations{
             break;
          case "search":
             searchRes(conn);
+            break;
+         case "revenue":
+            getRevenue(conn);
+            break;
          default:
             System.out.println("AHH");
             System.exit(0);
       }
    }
    public static void main(String[] args){
-      String jdbcUrl = "jdbc:mysql://db.labthreesixfive.com/cbfrench?autoReconnect=true&useSSL=false";
-      String dbUser = "kwong99";
-      String dbPass = "CSC365-F2019_011118402";
+      String jdbcUrl = System.getenv("JDBC_URL");
+      String dbUser = System.getenv("JDBC_USER");
+      String dbPass = System.getenv("JDBC_PASS");
       Connection conn = null;
       Statement stmt = null;
       try{
@@ -573,3 +748,7 @@ public class InnReservations{
       }
    }
 }
+
+
+
+
