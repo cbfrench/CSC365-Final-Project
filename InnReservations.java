@@ -406,6 +406,132 @@ public class InnReservations{
       }
    }
 
+   // FR-5
+
+
+   public static void searchRes(Connection conn){
+      Statement stmt = null;
+
+      try {
+         stmt = conn.createStatement();
+         Scanner input = new Scanner(System.in);
+         boolean firstWhere = false;
+         boolean oneDate = false;
+
+         System.out.println("Search Options: Firstname, Lastname, DateRange, RoomCode, ReservationCode");
+
+         //first name
+         System.out.print("First Name: ");
+         String FirstName = input.nextLine();
+         if (FirstName.isEmpty()) {
+            FirstName = "any";
+         }
+
+         //last name
+         System.out.print("Last Name: ");
+         String LastName = input.nextLine();
+         if (LastName.isEmpty()) {
+            LastName = "any";
+         }
+
+         //date range
+         System.out.println("Date Range: Start date - End date");
+         System.out.print("Start Date (yyyy-mm-dd): ");
+         String StartDate = input.nextLine();
+         System.out.print("End Date (yyyy-mm-dd): ");
+         String EndDate = input.nextLine();
+         if (StartDate.isEmpty()) {
+            StartDate = "any";
+         }
+         if (EndDate.isEmpty()){
+            EndDate = "any";
+         }
+
+         if (!StartDate.equals("any") && EndDate.equals("any") || StartDate.equals("any") && !EndDate.equals("any") ) {
+            System.out.println("Date Range requires both Start and End Date, or neither");
+         }
+
+         //room code
+         System.out.print("Room Code: ");
+         String RoomCode = input.nextLine();
+         if (RoomCode.isEmpty()) {
+            RoomCode = "any";
+         }
+
+         //res code
+         System.out.print("Reservation Code: ");
+         String ResCode = input.nextLine();
+         if (ResCode.isEmpty()) {
+            ResCode = "any";
+         }
+
+         String whereClause = "where ";
+
+
+         if (!LastName.equals("any")) {
+            firstWhere = true;
+            whereClause += "LastName like'" + LastName + "%'";
+
+         }
+
+         if (!FirstName.equals("any")) {
+            if (firstWhere) {
+               whereClause += " and ";
+            }
+            whereClause += "FirstName like '" + FirstName + "%'";
+         }
+
+         if (!RoomCode.equals("any")) {
+            if (firstWhere) {
+               whereClause += " and ";
+            }
+            whereClause += "Room like " + RoomCode + "%'";
+         }
+
+         if (!ResCode.equals("any")) {
+            if (firstWhere) {
+               whereClause += " and ";
+            }
+            whereClause += "Code like '" + ResCode + "%'";
+         }
+
+
+         // each room that was occupied between 8/17 - 8/20
+         //different date range possibilities
+         if (!StartDate.equals("any") && !EndDate.equals("any")){
+            if (firstWhere) {
+               whereClause += " and ";
+            }
+            whereClause += " (CheckIn <= '" + StartDate + "' and CheckOut >= '" + EndDate + "')";
+         }
+
+
+         String query = "select * from lab7_reservations " + whereClause + ";";
+         System.out.println(query);
+
+         ResultSet rs = stmt.executeQuery(query);
+
+         System.out.format("| %-5s | %-4s | %-10s | %-10s | %-4s | %-20s | %-20s | %-6s | %-4s |%n", "Code", "Room", "CheckIn", "CheckOut", "Rate", "LastName", "FirstName", "Adults", "Kids");
+         while (rs.next()) {
+            String code = rs.getString("Code");
+            String room = rs.getString("Room");
+            String checkIn = rs.getString("CheckIn");
+            String checkOut = rs.getString("CheckOut");
+            int rate = rs.getInt("Rate");
+            String lastName = rs.getString("LastName");
+            String firstName = rs.getString("FirstName");
+            int adults = rs.getInt("Adults");
+            int kids = rs.getInt("Kids");
+            System.out.format("| %-5s | %-4s | %-10s | %-10s | %4d | %-20s | %-20s | %-6d | %-4d |%n", code, room, checkIn, checkOut, rate, lastName, firstName, adults, kids);
+         }
+      } catch(Exception e){
+         System.out.println(e);
+      }
+
+   }
+
+
+
    public static void menu(Connection conn){
       Scanner input = new Scanner(System.in);
       System.out.print(">");
@@ -423,15 +549,17 @@ public class InnReservations{
          case "cancel":
             cancelRes(conn, input);
             break;
+         case "search":
+            searchRes(conn);
          default:
             System.out.println("AHH");
             System.exit(0);
       }
    }
    public static void main(String[] args){
-      String jdbcUrl = System.getenv("JDBC_URL");
-      String dbUser = System.getenv("JDBC_USER");
-      String dbPass = System.getenv("JDBC_PASS");
+      String jdbcUrl = "jdbc:mysql://db.labthreesixfive.com/cbfrench?autoReconnect=true&useSSL=false";
+      String dbUser = "kwong99";
+      String dbPass = "CSC365-F2019_011118402";
       Connection conn = null;
       Statement stmt = null;
       try{
