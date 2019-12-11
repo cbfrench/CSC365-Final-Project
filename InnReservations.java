@@ -62,9 +62,9 @@ public class InnReservations{
          String firstName = input.nextLine();
          System.out.print("Last Name: ");
          String lastName = input.nextLine();
-         System.out.println("Room Code (blank for no preference): ");
+         System.out.println("Room Code ('any' for no preference): ");
          String roomCode = input.nextLine();
-         System.out.println("Bed Type (blank for no preference): ");
+         System.out.println("Bed Type ('any' for no preference): ");
          String bedType = input.nextLine();
          System.out.println("Start Date (yyyy-mm-dd): ");
          String startDate = input.nextLine();
@@ -80,10 +80,10 @@ public class InnReservations{
          int count = 0;
          boolean found = false;
          String optionalWhere = "";
-         if(!roomCode.isEmpty()){
+         if(!roomCode.toLowerCase().equals("any")){
             optionalWhere += " and RoomCode='" + roomCode + "'";
          }
-         if(!bedType.isEmpty()){
+         if(!bedType.toLowerCase().equals("any")){
             optionalWhere += " and bedType='" + bedType + "'";
          }
          String query = "select *, rank() over (order by RoomCode) roomOption from lab7_rooms where RoomCode not in (select Room from lab7_reservations join lab7_rooms on Room=RoomCode where (CheckIn <= ? and CheckOut > ?) and maxOcc >= ?)";
@@ -410,12 +410,10 @@ public class InnReservations{
    // FR-5
 
 
-   public static void searchRes(Connection conn){
-      Statement stmt = null;
+   public static void searchRes(Connection conn, Scanner input){
+      PreparedStatement pstmt = null;
 
       try {
-         stmt = conn.createStatement();
-         Scanner input = new Scanner(System.in);
          int firstWhere = 0;
 
          System.out.println("Search Options: Firstname, Lastname, DateRange, RoomCode, ReservationCode");
@@ -467,12 +465,12 @@ public class InnReservations{
 
          String whereClause = "where ";
 
-         if (!FirstName.equals("any")) {
+         if (!FirstName.toLowerCase().equals("any")) {
             whereClause += "FirstName like '" + FirstName + "%'";
             firstWhere = 1;
          }
 
-         if (!LastName.equals("any")) {
+         if (!LastName.toLowerCase().equals("any")) {
             if (firstWhere == 1) {
                whereClause += " and ";
             }
@@ -482,7 +480,7 @@ public class InnReservations{
          }
 
 
-         if (!RoomCode.equals("any")) {
+         if (!RoomCode.toLowerCase().equals("any")) {
             if (firstWhere == 1) {
                whereClause += " and ";
             }
@@ -490,7 +488,7 @@ public class InnReservations{
             whereClause += "Room like '" + RoomCode + "%'";
          }
 
-         if (!ResCode.equals("any")) {
+         if (!ResCode.toLowerCase().equals("any")) {
             if (firstWhere == 1) {
                whereClause += " and ";
             }
@@ -501,7 +499,7 @@ public class InnReservations{
 
          // each room that was occupied between 8/17 - 8/20
          //different date range possibilities
-         if (!StartDate.equals("any") && !EndDate.equals("any")){
+         if (!StartDate.toLowerCase().equals("any") && !EndDate.toLowerCase().equals("any")){
             if (firstWhere == 1) {
                whereClause += " and ";
             }
@@ -511,7 +509,8 @@ public class InnReservations{
 
          String query = "select * from lab7_reservations " + whereClause + ";";
          System.out.println(query);
-         ResultSet rs = stmt.executeQuery(query);
+         pstmt = conn.prepareStatement(query);
+         ResultSet rs = pstmt.executeQuery();
 
          System.out.format("| %-5s | %-4s | %-10s | %-10s | %-4s | %-20s | %-20s | %-6s | %-4s |%n", "Code", "Room", "CheckIn", "CheckOut", "Rate", "LastName", "FirstName", "Adults", "Kids");
          while (rs.next()) {
@@ -669,7 +668,7 @@ public class InnReservations{
          String query5 = "select * from revenue";
          ResultSet rs2 = stmt.executeQuery(query5);
 
-         System.out.format("| %-8s | %-8s | %-8s | %-8s | %-8s | %-8s | %-8s| %-8s| %-8s | %-8s | %-8s | %-8s | %-8s | %-8s |%n", "Room", "January", "February", "March",
+         System.out.format("| %-8s | %-8s | %-8s | %-8s | %-8s | %-8s | %-8s| %-8s| %-8s | %-9s | %-8s | %-8s | %-8s | %-11s |%n", "Room", "January", "February", "March",
                  "April", "May", "June", "July", "August", "September", "October", "November", "December", "YearRevenue");
          while (rs2.next()) {
             String room = rs2.getString("Room");
@@ -687,7 +686,7 @@ public class InnReservations{
             String December = rs2.getString("December");
             String YearRevenue = rs2.getString("YearRevenue");
 
-            System.out.format("| %-8s | %-8s | %-8s | %-8s | %-8s | %-8s | %-8s| %-8s| %-8s | %-8s | %-8s | %-8s | %-8s | %-8s |%n", room, January, February, March,
+            System.out.format("| %-8s | %-8s | %-8s | %-8s | %-8s | %-8s | %-8s| %-8s| %-8s | %-9s | %-8s | %-8s | %-8s | %-11s |%n", room, January, February, March,
                     April, May, June, July, August, September, October, November, December, YearRevenue);
          }
 
@@ -721,7 +720,7 @@ public class InnReservations{
             cancelRes(conn, input);
             break;
          case "search":
-            searchRes(conn);
+            searchRes(conn, input);
             break;
          case "revenue":
             getRevenue(conn);
