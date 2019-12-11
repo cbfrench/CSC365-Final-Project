@@ -16,6 +16,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class InnReservations{
+   
+/******************************FUNCTIONS********************************/
    // FR-1
    public static void roomsAndRates(Connection conn){
       PreparedStatement pstmt = null;
@@ -79,19 +81,32 @@ public class InnReservations{
          int occ = childrenNum + adultNum;
          int count = 0;
          boolean found = false;
-         String optionalWhere = "";
+         boolean roomCodeFound = false;
+         boolean bedTypeFound = false;
          if(!roomCode.toLowerCase().equals("any")){
-            optionalWhere += " and RoomCode='" + roomCode + "'";
+            roomCodeFound = true;
+            query += " and RoomCode = ?";
          }
          if(!bedType.toLowerCase().equals("any")){
-            optionalWhere += " and bedType='" + bedType + "'";
+            bedTypeFound = true;
+            query += " and bedType = ?";
          }
          String query = "select *, rank() over (order by RoomCode) roomOption from lab7_rooms where RoomCode not in (select Room from lab7_reservations join lab7_rooms on Room=RoomCode where (CheckIn <= ? and CheckOut > ?) and maxOcc >= ?)";
-         query += optionalWhere;
          pstmt = conn.prepareStatement(query);
          pstmt.setString(1, endDate);
          pstmt.setString(2, startDate);
          pstmt.setInt(3, occ);
+         if(roomCodeFound){
+            pstmt.setString(4, roomCode);
+            if(bedTypeFound){
+               pstmt.setString(5, bedType);
+            }
+         }
+         else{
+            if(bedTypeFound){
+               pstmt.setString(4, bedType);
+            }
+         }
          rs = pstmt.executeQuery();
          int maximumOccupancy = 0;
          ArrayList<String[]> rooms = new ArrayList<String[]>();
