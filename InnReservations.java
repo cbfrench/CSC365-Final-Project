@@ -76,13 +76,18 @@ public class InnReservations{
          String children = input.nextLine();
          System.out.println("Number of Adults: ");
          String adults = input.nextLine();
+         if(firstName.isEmpty() || lastName.isEmpty() || roomCode.isEmpty() || bedType.isEmpty() || startDate.isEmpty() || endDate.isEmpty() || children.isEmpty() || adults.isEmpty()){
+            System.out.println("All values are required to book a room, please try again");
+            return;
+         }
          int childrenNum = Integer.parseInt(children);
          int adultNum = Integer.parseInt(adults);
          int occ = childrenNum + adultNum;
          int count = 0;
          boolean found = false;
          boolean roomCodeFound = false;
-         boolean bedTypeFound = false;
+         boolean bedTypeFound = false; 
+         String query = "select *, rank() over (order by RoomCode) roomOption from lab7_rooms where RoomCode not in (select Room from lab7_reservations join lab7_rooms on Room=RoomCode where (CheckIn <= ? and CheckOut > ?) and maxOcc >= ?)";
          if(!roomCode.toLowerCase().equals("any")){
             roomCodeFound = true;
             query += " and RoomCode = ?";
@@ -91,7 +96,6 @@ public class InnReservations{
             bedTypeFound = true;
             query += " and bedType = ?";
          }
-         String query = "select *, rank() over (order by RoomCode) roomOption from lab7_rooms where RoomCode not in (select Room from lab7_reservations join lab7_rooms on Room=RoomCode where (CheckIn <= ? and CheckOut > ?) and maxOcc >= ?)";
          pstmt = conn.prepareStatement(query);
          pstmt.setString(1, endDate);
          pstmt.setString(2, startDate);
@@ -124,13 +128,14 @@ public class InnReservations{
             rooms.add(roomInfo);
             String decor = rs.getString("decor");
             if(count==1){
-               System.out.format("| %-6s | %-8s | %-30s | %-4s | %-10s | %-10s | %-10s | %-15s |%n", "Option", "Code", "Name", "Beds", "BedType", "Max Guests", "base price", "Decor");
+               System.out.format("\n| %-6s | %-8s | %-30s | %-4s | %-10s | %-10s | %-10s | %-15s |%n", "Option", "Code", "Name", "Beds", "BedType", "Max Guests", "base price", "Decor");
             }
             System.out.format("| %-6s | %-8s | %-30s | %4d | %-10s | %10d | %10d | %-15s |%n", roomOption, roomCode, roomName, beds, bedType, maxOcc, basePrice, decor);
             if(maxOcc > maximumOccupancy){
                maximumOccupancy = maxOcc;
             }
          }
+         System.out.println();
          if(count == 0){
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
             Calendar c = Calendar.getInstance();
@@ -166,7 +171,8 @@ public class InnReservations{
             }
          }
          if(maximumOccupancy < occ){
-            System.out.println("We're sorry, we are unable to room a party of your size in only one room");
+            System.out.println("We're sorry, we are currently unable to host any parties larger than " + Integer.toString(maximumOccupancy) + " people, please consider booking multiple rooms");
+            return;
          }
          if(found){
             SimpleDateFormat df = new SimpleDateFormat("yyyy-mm-dd");
@@ -214,11 +220,11 @@ public class InnReservations{
                   pstmt.setInt(8, adultNum);
                   pstmt.setInt(9, childrenNum);
                   pstmt.executeUpdate();
-                  System.out.println("Reservation Confirmed");
+                  System.out.println("\nReservation Confirmed");
                   System.out.println("Reservation Code: " + reservationCode);
                   break;
                default:
-                  System.out.println("Reservation not confirmed, returning to menu");
+                  System.out.println("\nReservation not confirmed, returning to menu");
             }
          }
       }
@@ -231,7 +237,7 @@ public class InnReservations{
    public static void alterRes(Connection conn, Scanner input){
       PreparedStatement pstmt = null;
       try{
-         pstmt = conn.prepareStatement("select * from lab7_reservations where Code = ?");
+         pstmt = conn.prepareStatement("select * from lab7_reservations join lab7_rooms on Room=RoomCode where Code = ?");
          System.out.println("Enter your reservation code: ");
          String code = input.nextLine();
          pstmt.setString(1, code);
@@ -244,10 +250,11 @@ public class InnReservations{
          int adults = 0;
          int children = 0;
          int checkCount = 0;
+         int maxOcc = 0;
          ResultSet rs = pstmt.executeQuery();
          System.out.format("| %-5s | %-4s | %-10s | %-10s | %-4s | %-20s | %-20s | %-6s | %-4s |%n", "Code", "Room", "CheckIn", "CheckOut", "Rate", "LastName", "FirstName", "Adults", "Kids");
          while(rs.next()){
-            checkCount = 0;
+            checkCount++;
             room = rs.getString("Room");
             checkIn = rs.getString("CheckIn");
             checkOut = rs.getString("CheckOut");
@@ -256,7 +263,8 @@ public class InnReservations{
             firstName = rs.getString("FirstName");
             adults = rs.getInt("Adults");
             children = rs.getInt("Kids");
-            System.out.format("| %-5s | %-4s | %-10s | %-10s | %4d | %-20s | %-20s | %-6d | %-4d |%n", code, room, checkIn, checkOut, rate, lastName, firstName, adults, children);
+            maxOcc = rs.getInt("maxOcc");
+            System.out.format("| %-5s | %-4s | %-10s | %-10s | %4d | %-20s | %-20s | %-6d | %-4d | %-6d |%n", code, room, checkIn, checkOut, rate, lastName, firstName, adults, children, maxOcc);
          }
          if(checkCount == 0){
             System.out.println("No reservation exists with given reservation code");
@@ -277,6 +285,7 @@ public class InnReservations{
          String newAdults = input.nextLine();
          boolean changeFound = false;
          boolean dateChange = false;
+         boolean occChange = false;
          if(!newFirstName.isEmpty()){
             changeFound = true;
             firstName = newFirstName.toUpperCase();
@@ -297,15 +306,23 @@ public class InnReservations{
          }
          if(!newChildren.isEmpty()){
             changeFound = true;
+            occChange = true;
             children = Integer.parseInt(newChildren);
          }
          if(!newAdults.isEmpty()){
             changeFound = true;
+            occChange = true;
             adults = Integer.parseInt(newAdults);
          }
          if(!changeFound){
             System.out.println("Reservation change cancelled");
             return;
+         }
+         if(occChange){
+            if(adults + children > maxOcc){
+               System.out.println("We're sorry, the room you are booked in can only handle a maximum of " + Integer.toString(maxOcc) + " people");
+                  return;
+            }
          }
          if(dateChange){
             String query = "select *, rank() over (order by RoomCode) roomOption from lab7_rooms where RoomCode not in (select Room from lab7_reservations join lab7_rooms on Room=RoomCode where (CheckIn <= ? and CheckOut > ?)) where Room = ?";        
@@ -423,31 +440,21 @@ public class InnReservations{
    }
 
    // FR-5
-
-
    public static void searchRes(Connection conn, Scanner input){
       PreparedStatement pstmt = null;
-
       try {
          int firstWhere = 0;
-
-         System.out.println("Search Options: Firstname, Lastname, DateRange, RoomCode, ReservationCode");
-
-         //first name
+         System.out.println("\nSEARCH\nSearch Options: Firstname, Lastname, DateRange, RoomCode, ReservationCode\nLeave option blank if you wish not to use it");
          System.out.print("First Name: ");
          String FirstName = input.nextLine();
          if (FirstName.isEmpty()) {
             FirstName = "any";
          }
-
-         //last name
          System.out.print("Last Name: ");
          String LastName = input.nextLine();
          if (LastName.isEmpty()) {
             LastName = "any";
          }
-
-         //date range
          System.out.println("Date Range: Start date - End date");
          System.out.print("Start Date (yyyy-mm-dd): ");
          String StartDate = input.nextLine();
@@ -459,74 +466,99 @@ public class InnReservations{
          if (EndDate.isEmpty()){
             EndDate = "any";
          }
-
-         if (!StartDate.equals("any") && EndDate.equals("any") || StartDate.equals("any") && !EndDate.equals("any") ) {
+         /*if (!StartDate.equals("any") && EndDate.equals("any") || StartDate.equals("any") && !EndDate.equals("any") ) {
             System.out.println("Date Range requires both Start and End Date, or neither");
-         }
-
-         //room code
+            return;
+         }*/
          System.out.print("Room Code: ");
          String RoomCode = input.nextLine();
          if (RoomCode.isEmpty()) {
             RoomCode = "any";
          }
-
-         //res code
          System.out.print("Reservation Code: ");
          String ResCode = input.nextLine();
          if (ResCode.isEmpty()) {
             ResCode = "any";
          }
-
          String whereClause = "where ";
-
+         boolean fnFound = false;
+         boolean lnFound = false;
+         boolean roomcFound = false;
+         boolean rescFound = false;
+         boolean sdFound = false;
+         boolean edFound = false;
          if (!FirstName.toLowerCase().equals("any")) {
-            whereClause += "FirstName like '" + FirstName + "%'";
             firstWhere = 1;
+            whereClause += "FirstName like ?";
+            fnFound = true;
          }
-
          if (!LastName.toLowerCase().equals("any")) {
             if (firstWhere == 1) {
                whereClause += " and ";
             }
             firstWhere = 1;
-            whereClause += "LastName like '" + LastName + "%'";
-
+            whereClause += "LastName like ?";
+            lnFound = true;
          }
-
-
          if (!RoomCode.toLowerCase().equals("any")) {
             if (firstWhere == 1) {
                whereClause += " and ";
             }
             firstWhere = 1;
-            whereClause += "Room like '" + RoomCode + "%'";
+            whereClause += "Room like ?";
+            roomcFound = true;
          }
-
          if (!ResCode.toLowerCase().equals("any")) {
             if (firstWhere == 1) {
                whereClause += " and ";
             }
             firstWhere = 1;
-            whereClause += "Code like '" + ResCode + "%'";
+            whereClause += "Code like ?";
+            rescFound = true;
          }
-
-
-         // each room that was occupied between 8/17 - 8/20
-         //different date range possibilities
-         if (!StartDate.toLowerCase().equals("any") && !EndDate.toLowerCase().equals("any")){
+         if (!StartDate.toLowerCase().equals("any")){
             if (firstWhere == 1) {
                whereClause += " and ";
             }
-            whereClause += " (CheckIn <= '" + StartDate + "' and CheckOut >= '" + EndDate + "')";
+            whereClause += "CheckIn = ?";
+            sdFound = true;
          }
-
-
+         if (!EndDate.toLowerCase().equals("any")){
+            if (firstWhere == 1) {
+               whereClause += " and ";
+            }
+            whereClause += "CheckOut = ?";
+            edFound = true;
+         }
          String query = "select * from lab7_reservations " + whereClause + ";";
          System.out.println(query);
          pstmt = conn.prepareStatement(query);
+         int setCount = 1;
+         if(fnFound){
+            pstmt.setString(setCount, FirstName + "%");
+            setCount++;
+         }
+         if(lnFound){
+            pstmt.setString(setCount, LastName + "%");
+            setCount++; 
+         }
+         if(roomcFound){
+            pstmt.setString(setCount, RoomCode + "%");
+            setCount++;
+         }
+         if(rescFound){
+            pstmt.setString(setCount, ResCode + "%");
+            setCount++;
+         }
+         if(sdFound){
+            pstmt.setString(setCount, StartDate);
+            setCount++;
+         }
+         if(edFound){
+            pstmt.setString(setCount, EndDate);
+            setCount++;
+         }
          ResultSet rs = pstmt.executeQuery();
-
          System.out.format("| %-5s | %-4s | %-10s | %-10s | %-4s | %-20s | %-20s | %-6s | %-4s |%n", "Code", "Room", "CheckIn", "CheckOut", "Rate", "LastName", "FirstName", "Adults", "Kids");
          while (rs.next()) {
             String code = rs.getString("Code");
@@ -540,23 +572,20 @@ public class InnReservations{
             int kids = rs.getInt("Kids");
             System.out.format("| %-5s | %-4s | %-10s | %-10s | %4d | %-20s | %-20s | %-6d | %-4d |%n", code, room, checkIn, checkOut, rate, lastName, firstName, adults, kids);
          }
-
       } catch(Exception e){
          System.out.println(e);
       }
-
    }
 
+   // FR-6
    public static void getRevenue(Connection conn){
       Statement stmt = null;
       Statement stmt2 = null;
-
+      PreparedStatement pstmt = null;
+      ResultSet rs = null;
+      String query = "";
       try {
-         stmt = conn.createStatement();
-         stmt2 = conn.createStatement();
-         Scanner input = new Scanner(System.in);
-
-         String createTable = "create table  IF NOT EXISTS revenue (\n" +
+         query = "create table  IF NOT EXISTS revenue (\n" +
                  "\n" +
                  "Room            CHAR(10),\n" +
                  "January         DECIMAL(10,2),\n" +
@@ -575,11 +604,9 @@ public class InnReservations{
                  "\n" +
                  "PRIMARY KEY (Room)\n" +
                  ");";
-
-         stmt.executeUpdate(createTable);
-         //*******************************************************//
-
-         String query2 = "SELECT room, MONTHNAME(STR_TO_DATE(month_checkin, '%m')), ROUND(SUM(MonthRev),0) as MonthRevenue\n" +
+         pstmt = conn.prepareStatement(query);
+         pstmt.executeUpdate();
+         query = "SELECT room, MONTHNAME(STR_TO_DATE(month_checkin, '%m')), ROUND(SUM(MonthRev),0) as MonthRevenue\n" +
                  "FROM (\n" +
                  "    (SELECT room, month_checkin, SUM(CheckInMonthRev) as MonthRev\n" +
                  "    from (\n" +
@@ -623,27 +650,22 @@ public class InnReservations{
                  "ORDER BY room, month_checkin\n" +
                  "        \n" +
                  ";";
-
-
-
-         ResultSet rs = stmt.executeQuery(query2);
-
-
+         pstmt = conn.prepareStatement(query);
+         rs = pstmt.executeQuery();
          int count = 0;
          float sum = 0;
          String revz = "";
-
-
          while (rs.next()) {
             String m_revenue = rs.getString("MonthRevenue");
             String room = rs.getString("Room");
             if (count == 11){
                revz = revz + m_revenue;
                sum = sum + Float.parseFloat(m_revenue);
-               String query3 = "INSERT INTO revenue(Room, January, February, March, April, May, June, July, August, September, October, November, December, YearRevenue) VALUES(" + "'" + room + "'" + ", " + revz + ", " + sum + ");";
-               //System.out.println(qq);
-
-               stmt2.executeUpdate(query3);
+               query = "INSERT INTO revenue(Room, January, February, March, April, May, June, July, August, September, October, November, December, YearRevenue) VALUES(?, " + revz + ", ?);";
+               pstmt = conn.prepareStatement(query);
+               pstmt.setString(1, room);
+               pstmt.setFloat(2, sum);
+               pstmt.executeUpdate();
                revz = "";
                count = 0;
             }
@@ -652,10 +674,8 @@ public class InnReservations{
                revz = revz  + m_revenue + ", ";
                count++;
             }
-
          }
-
-         String query4 = "INSERT INTO revenue(Room, January, February, March, April, \n" +
+         query = "INSERT INTO revenue(Room, January, February, March, April, \n" +
                  "May, June, July, August, September, October, \n" +
                  "November, December, YearRevenue)\n" +
                  "SELECT Room, Jan, Feb, Mar, Apr, May, Jun, Jul, Aug, Sep, Oct, Nov, Decem, Rev\n" +
@@ -677,50 +697,47 @@ public class InnReservations{
                  "        ROUND(SUM(YearRevenue),0) as Rev\n" +
                  "    from revenue\n" +
                  "    ) as w1;";
-
-         stmt.executeUpdate(query4);
-
-         String query5 = "select * from revenue";
-         ResultSet rs2 = stmt.executeQuery(query5);
-
+         pstmt = conn.prepareStatement(query);
+         pstmt.executeUpdate();
+         query = "select * from revenue";
+         pstmt = conn.prepareStatement(query);
+         rs = pstmt.executeQuery();
          System.out.format("| %-8s | %-8s | %-8s | %-8s | %-8s | %-8s | %-8s| %-8s| %-8s | %-9s | %-8s | %-8s | %-8s | %-11s |%n", "Room", "January", "February", "March",
                  "April", "May", "June", "July", "August", "September", "October", "November", "December", "YearRevenue");
-         while (rs2.next()) {
-            String room = rs2.getString("Room");
-            String January = rs2.getString("January");
-            String February = rs2.getString("February");
-            String March = rs2.getString("March");
-            String April = rs2.getString("April");
-            String May = rs2.getString("May");
-            String June = rs2.getString("June");
-            String July = rs2.getString("July");
-            String August = rs2.getString("August");
-            String September = rs2.getString("September");
-            String October = rs2.getString("October");
-            String November = rs2.getString("November");
-            String December = rs2.getString("December");
-            String YearRevenue = rs2.getString("YearRevenue");
-
+         while (rs.next()) {
+            String room = rs.getString("Room");
+            String January = rs.getString("January");
+            String February = rs.getString("February");
+            String March = rs.getString("March");
+            String April = rs.getString("April");
+            String May = rs.getString("May");
+            String June = rs.getString("June");
+            String July = rs.getString("July");
+            String August = rs.getString("August");
+            String September = rs.getString("September");
+            String October = rs.getString("October");
+            String November = rs.getString("November");
+            String December = rs.getString("December");
+            String YearRevenue = rs.getString("YearRevenue");
             System.out.format("| %-8s | %-8s | %-8s | %-8s | %-8s | %-8s | %-8s| %-8s| %-8s | %-9s | %-8s | %-8s | %-8s | %-11s |%n", room, January, February, March,
                     April, May, June, July, August, September, October, November, December, YearRevenue);
          }
-
-         String deleteTable = "drop table revenue;";
-         stmt.executeUpdate(deleteTable);
-
-
+         query = "drop table revenue;";
+         pstmt = conn.prepareStatement(query);
+         pstmt.executeUpdate();
       } catch (Exception e){
          System.out.println(e);
       }
-
    }
 
-
-
+/**********************************MAIN*********************************/
    public static void menu(Connection conn){
       Scanner input = new Scanner(System.in);
+      boolean quit = false;
+      System.out.println("Possible Commands\npop - see room popularity for the last 180 days\nbook - book a reservation\nchange - change a reservation\ncancel - cancel a reservation\nsearch - search for a reservation\nrevenue - get a breakdown of the inn's revenue for the year\nquit - exit program\n");
       System.out.print(">");
       String userInput = input.nextLine();
+      System.out.println();
       switch(userInput){
          case "pop":
             roomsAndRates(conn);
@@ -740,9 +757,16 @@ public class InnReservations{
          case "revenue":
             getRevenue(conn);
             break;
+         case "quit":
+            System.out.println("Have a good day!");
+            quit = true;
+            break;
          default:
-            System.out.println("AHH");
-            System.exit(0);
+            System.out.println("I'm sorry, please try entering the command again");
+      }
+      System.out.println();
+      if(quit){
+         System.exit(0);
       }
    }
    public static void main(String[] args){
@@ -753,6 +777,7 @@ public class InnReservations{
       Statement stmt = null;
       try{
          conn = DriverManager.getConnection(jdbcUrl, dbUser, dbPass);
+         System.out.println("\nWelcome to the Inn Reservation System (IRS)\n");
          while(true){
             menu(conn);
          }
