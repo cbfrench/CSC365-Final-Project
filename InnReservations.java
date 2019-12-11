@@ -252,9 +252,11 @@ public class InnReservations{
          int checkCount = 0;
          int maxOcc = 0;
          ResultSet rs = pstmt.executeQuery();
-         System.out.format("| %-5s | %-4s | %-10s | %-10s | %-4s | %-20s | %-20s | %-6s | %-4s |%n", "Code", "Room", "CheckIn", "CheckOut", "Rate", "LastName", "FirstName", "Adults", "Kids");
          while(rs.next()){
             checkCount++;
+            if(checkCount == 1){
+               System.out.format("| %-5s | %-4s | %-10s | %-10s | %-4s | %-20s | %-20s | %-6s | %-4s |%n", "Code", "Room", "CheckIn", "CheckOut", "Rate", "LastName", "FirstName", "Adults", "Kids");
+            }
             room = rs.getString("Room");
             checkIn = rs.getString("CheckIn");
             checkOut = rs.getString("CheckOut");
@@ -271,17 +273,17 @@ public class InnReservations{
             return;
          }
          System.out.println("\nUpdating this reservation, leave blank if no change requested for a given field");
-         System.out.println("First Name: ");
+         System.out.print("First Name: ");
          String newFirstName = input.nextLine();
-         System.out.println("Last Name: ");
+         System.out.print("Last Name: ");
          String newLastName = input.nextLine();
-         System.out.println("Start Date(yyyy-MM-dd): ");
+         System.out.print("Start Date(yyyy-MM-dd): ");
          String newCheckIn = input.nextLine();
-         System.out.println("End Date(yyyy-MM-dd): ");
+         System.out.print("End Date(yyyy-MM-dd): ");
          String newCheckOut = input.nextLine();
-         System.out.println("Children: ");
+         System.out.print("Children: ");
          String newChildren = input.nextLine();
-         System.out.println("Adults: ");
+         System.out.print("Adults: ");
          String newAdults = input.nextLine();
          boolean changeFound = false;
          boolean dateChange = false;
@@ -325,11 +327,12 @@ public class InnReservations{
             }
          }
          if(dateChange){
-            String query = "select *, rank() over (order by RoomCode) roomOption from lab7_rooms where RoomCode not in (select Room from lab7_reservations join lab7_rooms on Room=RoomCode where (CheckIn <= ? and CheckOut > ?)) where Room = ?";        
+            String query = "select * from (select *, rank() over (order by RoomCode) roomOption from lab7_rooms where RoomCode not in (select Room from lab7_reservations join lab7_rooms on Room=RoomCode where (CheckIn <= ? and CheckOut > ?) and CODE <> ?)) as A where RoomCode = ?";        
             pstmt = conn.prepareStatement(query);
             pstmt.setString(1, checkOut);
             pstmt.setString(2, checkIn);
-            pstmt.setString(3, room);
+            pstmt.setString(3, code);
+            pstmt.setString(4, room);
             rs = pstmt.executeQuery();
             int count = 0;
             while(rs.next()){
@@ -339,7 +342,7 @@ public class InnReservations{
                System.out.println("Date was not able to be rescheduled due to existing reservation");
             }
             else{
-               System.out.format("| %-5s | %-4s | %-10s | %-10s | %-4s | %-20s | %-20s | %-6s | %-4s |%n", "Code", "Room", "CheckIn", "CheckOut", "Rate", "LastName", "FirstName", "Adults", "Kids");
+               System.out.format("\n| %-5s | %-4s | %-10s | %-10s | %-4s | %-20s | %-20s | %-6s | %-4s |%n", "Code", "Room", "CheckIn", "CheckOut", "Rate", "LastName", "FirstName", "Adults", "Kids");
                System.out.format("| %-5s | %-4s | %-10s | %-10s | %4d | %-20s | %-20s | %-6d | %-4d |%n", code, room, checkIn, checkOut, rate, lastName, firstName, adults, children);
                System.out.println("Confirm Changes? (y/n): ");
                String confirmation = input.nextLine();
@@ -388,6 +391,7 @@ public class InnReservations{
       }
       catch(Exception e){
          System.out.println(e);
+         e.printStackTrace();
       } 
         
    }
@@ -466,10 +470,6 @@ public class InnReservations{
          if (EndDate.isEmpty()){
             EndDate = "any";
          }
-         /*if (!StartDate.equals("any") && EndDate.equals("any") || StartDate.equals("any") && !EndDate.equals("any") ) {
-            System.out.println("Date Range requires both Start and End Date, or neither");
-            return;
-         }*/
          System.out.print("Room Code: ");
          String RoomCode = input.nextLine();
          if (RoomCode.isEmpty()) {
@@ -531,7 +531,6 @@ public class InnReservations{
             edFound = true;
          }
          String query = "select * from lab7_reservations " + whereClause + ";";
-         System.out.println(query);
          pstmt = conn.prepareStatement(query);
          int setCount = 1;
          if(fnFound){
@@ -559,7 +558,7 @@ public class InnReservations{
             setCount++;
          }
          ResultSet rs = pstmt.executeQuery();
-         System.out.format("| %-5s | %-4s | %-10s | %-10s | %-4s | %-20s | %-20s | %-6s | %-4s |%n", "Code", "Room", "CheckIn", "CheckOut", "Rate", "LastName", "FirstName", "Adults", "Kids");
+         System.out.format("\n| %-5s | %-4s | %-10s | %-10s | %-4s | %-20s | %-20s | %-6s | %-4s |%n", "Code", "Room", "CheckIn", "CheckOut", "Rate", "LastName", "FirstName", "Adults", "Kids");
          while (rs.next()) {
             String code = rs.getString("Code");
             String room = rs.getString("Room");

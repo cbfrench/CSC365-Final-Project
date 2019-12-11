@@ -1,0 +1,841 @@
+commit f6dcf5beb29c24820dc0f0fe3ca2d76c585c505e
+Author: Connor <connorfrench716@gmail.com>
+Date:   Tue Dec 10 22:43:05 2019 -0800
+
+    Updated FR-5&6 to use prepared statements, updated UI
+
+ InnReservations.class | Bin 19865 -> 21363 bytes
+ InnReservations.java  | 239 ++++++++++++++++++++++++++++----------------------
+ README.md             |  22 ++---
+ 3 files changed, 140 insertions(+), 121 deletions(-)
+
+commit 17f87b5093e4d0cd13156d94a9d8f3c7d9a4f7b7
+Author: Connor <connorfrench716@gmail.com>
+Date:   Tue Dec 10 17:43:13 2019 -0800
+
+    Updated FR-2 to remove SQL injection vulnerablilities
+
+ InnReservations.java | 23 +++++++++++++++++++----
+ 1 file changed, 19 insertions(+), 4 deletions(-)
+
+commit 697d00ca01f1cd70b455d227371815a57813e194
+Author: Connor <connorfrench716@gmail.com>
+Date:   Tue Dec 10 17:31:23 2019 -0800
+
+    Minor changes to FR-5 and README
+
+ InnReservations.class | Bin 19832 -> 19865 bytes
+ InnReservations.java  |  33 ++++++++++++++++-----------------
+ README.md             |   4 ++--
+ 3 files changed, 18 insertions(+), 19 deletions(-)
+
+commit 55ba32f277a6c82552e3945ccc76e79d5782b1f6
+Author: kwong101 <43554963+kwong101@users.noreply.github.com>
+Date:   Tue Dec 10 07:47:11 2019 -0800
+
+    Add files via upload
+    
+    added fr-5 and fr-6
+
+ README.md | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
+
+commit cb797750a04a857544034dfbeb98e523a34b2ea0
+Author: kwong101 <43554963+kwong101@users.noreply.github.com>
+Date:   Tue Dec 10 07:46:56 2019 -0800
+
+    Add files via upload
+    
+    added fr-5 and fr-6
+
+ InnReservations.class | Bin 15539 -> 19832 bytes
+ InnReservations.java  | 215 +++++++++++++++++++++++++++++++++++++++++++++-----
+ 2 files changed, 197 insertions(+), 18 deletions(-)
+
+commit 313cd8eb30f055329b0de73be9d049862f6d7a59
+Author: kwong101 <43554963+kwong101@users.noreply.github.com>
+Date:   Tue Dec 10 00:59:40 2019 -0800
+
+    added fr-5 usage
+
+ README.md | 2 ++
+ 1 file changed, 2 insertions(+)
+
+commit d281fdb60c1ddfcabd9d9c94aa97acfaedea5406
+Author: kwong101 <43554963+kwong101@users.noreply.github.com>
+Date:   Tue Dec 10 00:59:00 2019 -0800
+
+    added FR-5
+
+ InnReservations.class | Bin 13356 -> 15539 bytes
+ InnReservations.java  | 134 ++++++++++++++++++++++++++++++++++++++++++++++++--
+ 2 files changed, 131 insertions(+), 3 deletions(-)
+
+commit da30008caab3d9baf32b5cfa30ce32d0a61eb4cd
+Author: Connor <connorfrench716@gmail.com>
+Date:   Mon Dec 9 23:58:00 2019 -0800
+
+    Updated FR-3 error checking
+
+ InnReservations.java | 6 ++++++
+ README.md            | 5 ++++-
+ 2 files changed, 10 insertions(+), 1 deletion(-)
+
+commit c01eed8da80fb8758d324c37294820a4592ddd3a
+Author: Connor <connorfrench716@gmail.com>
+Date:   Mon Dec 9 22:29:56 2019 -0800
+
+    FR-3 working, need to test incorrect resCode, updated README
+
+ InnReservations.class | Bin 10682 -> 13356 bytes
+ InnReservations.java  | 231 +++++++++++++++++++++++++++++++++++++++++---------
+ README.md             |  34 ++++----
+ 3 files changed, 207 insertions(+), 58 deletions(-)
+
+commit d7fab3c4b4224e7aae6f1caf4815a6bb506fcaaf
+Author: Connor <connorfrench716@gmail.com>
+Date:   Mon Dec 9 17:38:03 2019 -0800
+
+    Updated README to reflect FR-2
+
+ README.md | 9 ++++++---
+ 1 file changed, 6 insertions(+), 3 deletions(-)
+
+commit b3ff55ac1c9f2714395dae8754e449de48f941c7
+Author: Connor <connorfrench716@gmail.com>
+Date:   Mon Dec 9 17:35:55 2019 -0800
+
+    FR-2 Working, may need testing
+
+ InnReservations.class | Bin 6964 -> 10682 bytes
+ InnReservations.java  | 111 +++++++++++++++++++++++++++++++++++++++++++++++---
+ 2 files changed, 105 insertions(+), 6 deletions(-)
+
+commit 23e67c463fbefc43cdb79fc4d751fdf4f55dc636
+Author: Connor <connorfrench716@gmail.com>
+Date:   Mon Dec 9 02:09:45 2019 -0800
+
+    Preliminary FR-2, missing features
+
+ InnReservations.class | Bin 5351 -> 6964 bytes
+ InnReservations.java  |  63 ++++++++++++++++++++++++++++++++++++++++++++++++++
+ 2 files changed, 63 insertions(+)
+
+commit 5e6876afe22afbbd25d3d98de0bab8f449f13c3d
+Author: Connor <connorfrench716@gmail.com>
+Date:   Mon Dec 9 00:05:45 2019 -0800
+
+    Added preliminary FR-4
+
+ README.md | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
+
+commit 2491228863de53a2ffd0aac894c848e6fadc8ccd
+Author: Connor <connorfrench716@gmail.com>
+Date:   Mon Dec 9 00:04:21 2019 -0800
+
+    Added preliminary FR-4
+
+ InnReservations.class | Bin 3819 -> 5351 bytes
+ InnReservations.java  |  53 ++++++++++++++++++++++++++++++++++++++++++++++++++
+ 2 files changed, 53 insertions(+)
+
+commit 39ce907c1cbb1a5659a47f1f59b9cdb27dc664b1
+Author: Connor <connorfrench716@gmail.com>
+Date:   Sun Dec 8 23:20:17 2019 -0800
+
+    Working FR1
+
+ InnReservations.class | Bin 1530 -> 3819 bytes
+ InnReservations.java  |  44 +++++++++++++++++++++++++++++++++++++++++++-
+ README.md             |   3 +++
+ 3 files changed, 46 insertions(+), 1 deletion(-)
+
+commit 997cc984efb0766c907c9f12ab8bdd76c4d035a3
+Author: Connor <connorfrench716@gmail.com>
+Date:   Sun Dec 8 21:04:11 2019 -0800
+
+    Added env variables
+
+ README.md | 8 ++++++++
+ 1 file changed, 8 insertions(+)
+
+commit 772605cc2931146316061305422703a45a13a6cf
+Author: Connor <connorfrench716@gmail.com>
+Date:   Sun Dec 8 20:38:59 2019 -0800
+
+    Added run instructions
+
+ README.md | 2 ++
+ 1 file changed, 2 insertions(+)
+
+commit 765348a9298900afba0a399fb14220ab0021e2b9
+Author: Connor <connorfrench716@gmail.com>
+Date:   Sun Dec 8 20:36:19 2019 -0800
+
+    Initial commit with connection working
+
+ InnReservations.class                              |   Bin 0 -> 1530 bytes
+ InnReservations.java                               |    37 +
+ mysql-connector-java-8.0.18/CHANGES                |  5914 +++++
+ mysql-connector-java-8.0.18/INFO_BIN               |     4 +
+ mysql-connector-java-8.0.18/INFO_SRC               |     5 +
+ mysql-connector-java-8.0.18/LICENSE                |  1925 ++
+ mysql-connector-java-8.0.18/README                 |    28 +
+ mysql-connector-java-8.0.18/build.xml              |  1601 ++
+ .../mysql-connector-java-8.0.18.jar                |   Bin 0 -> 2330539 bytes
+ .../documentation/ErrorMappingsDocGenerator.java   |    84 +
+ .../java/documentation/PropertiesDocGenerator.java |   143 +
+ .../src/build/java/instrumentation/AddMethods.java |   136 +
+ .../build/java/instrumentation/CommonChecks.java   |   193 +
+ .../java/instrumentation/TranslateExceptions.java  |   734 +
+ .../src/build/misc/Product.wxs                     |    38 +
+ .../src/build/misc/debian.in/changelog             |     5 +
+ .../src/build/misc/debian.in/compat                |     1 +
+ .../src/build/misc/debian.in/control               |    14 +
+ .../src/build/misc/debian.in/copyright             |     9 +
+ .../src/build/misc/debian.in/install               |     8 +
+ .../src/build/misc/debian.in/rules                 |    77 +
+ .../src/build/misc/debian.in/source/format         |     1 +
+ .../src/build/misc/debian.in/watch                 |     2 +
+ mysql-connector-java-8.0.18/src/build/misc/pom.xml |    38 +
+ .../src/build/misc/rpm.spec.in                     |   196 +
+ .../src/demo/java/demo/x/devapi/DevApiSample.java  |    84 +
+ .../java/com/mysql/cj/x/protobuf/Mysqlx.java       |  3177 +++
+ .../com/mysql/cj/x/protobuf/MysqlxConnection.java  |  3254 +++
+ .../java/com/mysql/cj/x/protobuf/MysqlxCrud.java   | 21710 +++++++++++++++++++
+ .../java/com/mysql/cj/x/protobuf/MysqlxCursor.java |  2963 +++
+ .../com/mysql/cj/x/protobuf/MysqlxDatatypes.java   |  6663 ++++++
+ .../java/com/mysql/cj/x/protobuf/MysqlxExpect.java |  2504 +++
+ .../java/com/mysql/cj/x/protobuf/MysqlxExpr.java   | 10025 +++++++++
+ .../java/com/mysql/cj/x/protobuf/MysqlxNotice.java |  5219 +++++
+ .../com/mysql/cj/x/protobuf/MysqlxPrepare.java     |  4147 ++++
+ .../com/mysql/cj/x/protobuf/MysqlxResultset.java   |  4823 ++++
+ .../com/mysql/cj/x/protobuf/MysqlxSession.java     |  2921 +++
+ .../java/com/mysql/cj/x/protobuf/MysqlxSql.java    |  1711 ++
+ .../java/com/mysql/cj/x/protobuf/package-info.java |    40 +
+ .../src/legacy/java/com/mysql/jdbc/Driver.java     |    46 +
+ .../legacy/java/com/mysql/jdbc/SocketFactory.java  |    98 +
+ .../java/com/mysql/jdbc/SocketFactoryWrapper.java  |    78 +
+ .../java/com/mysql/cj/AppendingBatchVisitor.java   |    88 +
+ .../core-api/java/com/mysql/cj/BatchVisitor.java   |    43 +
+ .../main/core-api/java/com/mysql/cj/BindValue.java |    67 +
+ .../core-api/java/com/mysql/cj/CacheAdapter.java   |    44 +
+ .../java/com/mysql/cj/CacheAdapterFactory.java     |    36 +
+ .../java/com/mysql/cj/CancelQueryTask.java         |    44 +
+ .../core-api/java/com/mysql/cj/CharsetMapping.java |   801 +
+ .../main/core-api/java/com/mysql/cj/Constants.java |   104 +
+ .../java/com/mysql/cj/DataStoreMetadata.java       |    40 +
+ .../core-api/java/com/mysql/cj/MessageBuilder.java |    43 +
+ .../main/core-api/java/com/mysql/cj/Messages.java  |   108 +
+ .../java/com/mysql/cj/MysqlConnection.java         |    79 +
+ .../main/core-api/java/com/mysql/cj/MysqlType.java |  1021 +
+ .../main/core-api/java/com/mysql/cj/ParseInfo.java |   596 +
+ .../java/com/mysql/cj/PerConnectionLRUFactory.java |    96 +
+ .../core-api/java/com/mysql/cj/PingTarget.java     |    36 +
+ .../core-api/java/com/mysql/cj/PreparedQuery.java  |    67 +
+ .../src/main/core-api/java/com/mysql/cj/Query.java |   107 +
+ .../core-api/java/com/mysql/cj/QueryBindings.java  |   224 +
+ .../core-api/java/com/mysql/cj/QueryResult.java    |    34 +
+ .../core-api/java/com/mysql/cj/ServerVersion.java  |   166 +
+ .../main/core-api/java/com/mysql/cj/Session.java   |   222 +
+ .../java/com/mysql/cj/TransactionEventHandler.java |    37 +
+ .../java/com/mysql/cj/WarningListener.java         |    38 +
+ .../cj/conf/ConnectionPropertiesTransform.java     |    52 +
+ .../java/com/mysql/cj/conf/ConnectionUrl.java      |   718 +
+ .../com/mysql/cj/conf/ConnectionUrlParser.java     |   686 +
+ .../com/mysql/cj/conf/DatabaseUrlContainer.java    |    42 +
+ .../core-api/java/com/mysql/cj/conf/HostInfo.java  |   257 +
+ .../java/com/mysql/cj/conf/PropertyDefinition.java |   160 +
+ .../com/mysql/cj/conf/PropertyDefinitions.java     |   808 +
+ .../java/com/mysql/cj/conf/PropertyKey.java        |   359 +
+ .../java/com/mysql/cj/conf/PropertySet.java        |    87 +
+ .../java/com/mysql/cj/conf/RuntimeProperty.java    |   120 +
+ .../cj/exceptions/AssertionFailedException.java    |    96 +
+ .../cj/exceptions/CJCommunicationsException.java   |    67 +
+ .../CJConnectionFeatureNotAvailableException.java  |    56 +
+ .../java/com/mysql/cj/exceptions/CJException.java  |   103 +
+ .../CJOperationNotSupportedException.java          |    44 +
+ .../cj/exceptions/CJPacketTooBigException.java     |    69 +
+ .../mysql/cj/exceptions/CJTimeoutException.java    |    54 +
+ .../ClosedOnExpiredPasswordException.java          |    67 +
+ .../cj/exceptions/ConnectionIsClosedException.java |    64 +
+ .../cj/exceptions/DataConversionException.java     |    42 +
+ .../com/mysql/cj/exceptions/DataReadException.java |    47 +
+ .../cj/exceptions/DataTruncationException.java     |   112 +
+ .../exceptions/DeadlockTimeoutRollbackMarker.java  |    37 +
+ .../com/mysql/cj/exceptions/ExceptionFactory.java  |   307 +
+ .../mysql/cj/exceptions/ExceptionInterceptor.java  |    65 +
+ .../cj/exceptions/ExceptionInterceptorChain.java   |    90 +
+ .../exceptions/FeatureNotAvailableException.java   |    55 +
+ .../InvalidConnectionAttributeException.java       |    60 +
+ .../com/mysql/cj/exceptions/MysqlErrorNumbers.java |  1384 ++
+ .../com/mysql/cj/exceptions/NumberOutOfRange.java  |    42 +
+ .../cj/exceptions/OperationCancelledException.java |    54 +
+ .../cj/exceptions/PasswordExpiredException.java    |    67 +
+ .../exceptions/PropertyNotModifiableException.java |    56 +
+ .../java/com/mysql/cj/exceptions/RSAException.java |    56 +
+ .../mysql/cj/exceptions/SSLParamsException.java    |    60 +
+ .../cj/exceptions/StatementIsClosedException.java  |    64 +
+ .../mysql/cj/exceptions/StreamingNotifiable.java   |    36 +
+ .../cj/exceptions/UnableToConnectException.java    |    60 +
+ .../UnsupportedConnectionStringException.java      |    60 +
+ .../cj/exceptions/WrongArgumentException.java      |    60 +
+ .../mysql/cj/interceptors/QueryInterceptor.java    |   181 +
+ .../java/com/mysql/cj/log/Jdk14Logger.java         |   274 +
+ .../main/core-api/java/com/mysql/cj/log/Log.java   |   188 +
+ .../core-api/java/com/mysql/cj/log/NullLogger.java |   106 +
+ .../java/com/mysql/cj/log/ProfilerEvent.java       |   157 +
+ .../com/mysql/cj/log/ProfilerEventHandler.java     |    45 +
+ .../java/com/mysql/cj/log/Slf4JLogger.java         |   114 +
+ .../java/com/mysql/cj/log/StandardLogger.java      |   298 +
+ .../mysql/cj/protocol/AuthenticationPlugin.java    |   148 +
+ .../mysql/cj/protocol/AuthenticationProvider.java  |    88 +
+ .../com/mysql/cj/protocol/ColumnDefinition.java    |    85 +
+ .../com/mysql/cj/protocol/FullReadInputStream.java |   113 +
+ .../java/com/mysql/cj/protocol/InternalDate.java   |    77 +
+ .../java/com/mysql/cj/protocol/InternalTime.java   |    87 +
+ .../com/mysql/cj/protocol/InternalTimestamp.java   |    92 +
+ .../java/com/mysql/cj/protocol/Message.java        |    52 +
+ .../java/com/mysql/cj/protocol/MessageHeader.java  |    45 +
+ .../com/mysql/cj/protocol/MessageListener.java     |    64 +
+ .../java/com/mysql/cj/protocol/MessageReader.java  |   140 +
+ .../java/com/mysql/cj/protocol/MessageSender.java  |   117 +
+ .../com/mysql/cj/protocol/NetworkResources.java    |   100 +
+ .../com/mysql/cj/protocol/OutputStreamWatcher.java |    44 +
+ .../cj/protocol/PacketReceivedTimeHolder.java      |    39 +
+ .../mysql/cj/protocol/PacketSentTimeHolder.java    |    57 +
+ .../java/com/mysql/cj/protocol/Protocol.java       |   283 +
+ .../java/com/mysql/cj/protocol/ProtocolEntity.java |    34 +
+ .../mysql/cj/protocol/ProtocolEntityFactory.java   |    70 +
+ .../mysql/cj/protocol/ProtocolEntityReader.java    |    77 +
+ .../java/com/mysql/cj/protocol/ResultBuilder.java  |    57 +
+ .../java/com/mysql/cj/protocol/ResultStreamer.java |    43 +
+ .../java/com/mysql/cj/protocol/Resultset.java      |   198 +
+ .../java/com/mysql/cj/protocol/ResultsetRow.java   |    46 +
+ .../java/com/mysql/cj/protocol/ResultsetRows.java  |   191 +
+ .../com/mysql/cj/protocol/ResultsetRowsOwner.java  |    63 +
+ .../com/mysql/cj/protocol/ServerCapabilities.java  |    49 +
+ .../java/com/mysql/cj/protocol/ServerSession.java  |   259 +
+ .../com/mysql/cj/protocol/SocketConnection.java    |   105 +
+ .../java/com/mysql/cj/protocol/SocketFactory.java  |   106 +
+ .../java/com/mysql/cj/protocol/SocketMetadata.java |    89 +
+ .../java/com/mysql/cj/protocol/ValueDecoder.java   |    77 +
+ .../java/com/mysql/cj/protocol/Warning.java        |    53 +
+ .../com/mysql/cj/protocol/WatchableStream.java     |    42 +
+ .../core-api/java/com/mysql/cj/result/Field.java   |   430 +
+ .../core-api/java/com/mysql/cj/result/Row.java     |   108 +
+ .../core-api/java/com/mysql/cj/result/RowList.java |    88 +
+ .../java/com/mysql/cj/result/ValueFactory.java     |    88 +
+ .../java/com/mysql/cj/util/Base64Decoder.java      |    97 +
+ .../java/com/mysql/cj/util/DataTypeUtil.java       |    55 +
+ .../java/com/mysql/cj/util/EscapeTokenizer.java    |   190 +
+ .../core-api/java/com/mysql/cj/util/LRUCache.java  |    48 +
+ .../java/com/mysql/cj/util/LazyString.java         |    91 +
+ .../core-api/java/com/mysql/cj/util/LogUtils.java  |    67 +
+ .../cj/util/PerVmServerConfigCacheFactory.java     |    70 +
+ .../java/com/mysql/cj/util/SequentialIdLease.java  |    62 +
+ .../java/com/mysql/cj/util/StringUtils.java        |  2055 ++
+ .../core-api/java/com/mysql/cj/util/TestUtils.java |    38 +
+ .../core-api/java/com/mysql/cj/util/TimeUtil.java  |   436 +
+ .../main/core-api/java/com/mysql/cj/util/Util.java |   507 +
+ .../java/com/mysql/cj/AbstractPreparedQuery.java   |   392 +
+ .../core-impl/java/com/mysql/cj/AbstractQuery.java |   239 +
+ .../java/com/mysql/cj/AbstractQueryBindings.java   |   677 +
+ .../java/com/mysql/cj/CancelQueryTaskImpl.java     |   140 +
+ .../java/com/mysql/cj/ClientPreparedQuery.java     |    98 +
+ .../com/mysql/cj/ClientPreparedQueryBindValue.java |   161 +
+ .../com/mysql/cj/ClientPreparedQueryBindings.java  |   800 +
+ .../core-impl/java/com/mysql/cj/CoreSession.java   |   221 +
+ .../java/com/mysql/cj/DataStoreMetadataImpl.java   |    83 +
+ .../java/com/mysql/cj/LicenseConfiguration.java    |    59 +
+ .../core-impl/java/com/mysql/cj/MysqlxSession.java |   176 +
+ .../core-impl/java/com/mysql/cj/NativeSession.java |  1244 ++
+ .../java/com/mysql/cj/NoSubInterceptorWrapper.java |    98 +
+ .../java/com/mysql/cj/ServerPreparedQuery.java     |   764 +
+ .../com/mysql/cj/ServerPreparedQueryBindValue.java |   335 +
+ .../com/mysql/cj/ServerPreparedQueryBindings.java  |   527 +
+ .../cj/ServerPreparedQueryTestcaseGenerator.java   |   133 +
+ .../core-impl/java/com/mysql/cj/SimpleQuery.java   |    40 +
+ .../java/com/mysql/cj/admin/ServerController.java  |   333 +
+ .../mysql/cj/conf/AbstractPropertyDefinition.java  |   183 +
+ .../com/mysql/cj/conf/AbstractRuntimeProperty.java |   234 +
+ .../java/com/mysql/cj/conf/BooleanProperty.java    |    39 +
+ .../mysql/cj/conf/BooleanPropertyDefinition.java   |    97 +
+ .../java/com/mysql/cj/conf/DefaultPropertySet.java |   271 +
+ .../java/com/mysql/cj/conf/EnumProperty.java       |    39 +
+ .../com/mysql/cj/conf/EnumPropertyDefinition.java  |    80 +
+ .../java/com/mysql/cj/conf/IntegerProperty.java    |    54 +
+ .../mysql/cj/conf/IntegerPropertyDefinition.java   |    87 +
+ .../java/com/mysql/cj/conf/LongProperty.java       |    54 +
+ .../com/mysql/cj/conf/LongPropertyDefinition.java  |    77 +
+ .../java/com/mysql/cj/conf/MemorySizeProperty.java |    80 +
+ .../cj/conf/MemorySizePropertyDefinition.java      |    80 +
+ .../java/com/mysql/cj/conf/StringProperty.java     |    44 +
+ .../mysql/cj/conf/StringPropertyDefinition.java    |    62 +
+ .../mysql/cj/conf/url/FailoverConnectionUrl.java   |    50 +
+ .../cj/conf/url/LoadbalanceConnectionUrl.java      |   136 +
+ .../cj/conf/url/ReplicationConnectionUrl.java      |   208 +
+ .../com/mysql/cj/conf/url/SingleConnectionUrl.java |    50 +
+ .../mysql/cj/conf/url/XDevAPIConnectionUrl.java    |   135 +
+ .../java/com/mysql/cj/log/BaseMetricsHolder.java   |   375 +
+ .../java/com/mysql/cj/log/LogFactory.java          |    95 +
+ .../mysql/cj/log/LoggingProfilerEventHandler.java  |    81 +
+ .../java/com/mysql/cj/log/ProfilerEventImpl.java   |   325 +
+ .../com/mysql/cj/protocol/AbstractProtocol.java    |   139 +
+ .../cj/protocol/AbstractSocketConnection.java      |   144 +
+ .../com/mysql/cj/protocol/AsyncSocketFactory.java  |    73 +
+ .../com/mysql/cj/protocol/ExportControlled.java    |   794 +
+ .../mysql/cj/protocol/NamedPipeSocketFactory.java  |   240 +
+ .../mysql/cj/protocol/ReadAheadInputStream.java    |   286 +
+ .../java/com/mysql/cj/protocol/Security.java       |   188 +
+ .../mysql/cj/protocol/SerializingBufferWriter.java |   198 +
+ .../mysql/cj/protocol/SocksProxySocketFactory.java |    50 +
+ .../mysql/cj/protocol/StandardSocketFactory.java   |   228 +
+ .../cj/protocol/TlsAsynchronousSocketChannel.java  |   439 +
+ .../mysql/cj/protocol/WatchableOutputStream.java   |    56 +
+ .../com/mysql/cj/protocol/WatchableWriter.java     |    60 +
+ .../java/com/mysql/cj/protocol/WriterWatcher.java  |    44 +
+ .../cj/protocol/result/AbstractResultsetRow.java   |   256 +
+ .../cj/result/AbstractDateTimeValueFactory.java    |   125 +
+ .../cj/result/AbstractNumericValueFactory.java     |    73 +
+ .../mysql/cj/result/BigDecimalValueFactory.java    |   103 +
+ .../mysql/cj/result/BinaryStreamValueFactory.java  |    54 +
+ .../com/mysql/cj/result/BooleanValueFactory.java   |   118 +
+ .../java/com/mysql/cj/result/BufferedRowList.java  |    89 +
+ .../java/com/mysql/cj/result/ByteValueFactory.java |   118 +
+ .../mysql/cj/result/DefaultColumnDefinition.java   |   239 +
+ .../com/mysql/cj/result/DefaultValueFactory.java   |   113 +
+ .../com/mysql/cj/result/DoubleValueFactory.java    |    92 +
+ .../com/mysql/cj/result/FloatValueFactory.java     |    92 +
+ .../com/mysql/cj/result/IntegerValueFactory.java   |    96 +
+ .../mysql/cj/result/LocalDateTimeValueFactory.java |    85 +
+ .../com/mysql/cj/result/LocalDateValueFactory.java |    82 +
+ .../com/mysql/cj/result/LocalTimeValueFactory.java |    88 +
+ .../java/com/mysql/cj/result/LongValueFactory.java |    92 +
+ .../com/mysql/cj/result/ShortValueFactory.java     |    96 +
+ .../com/mysql/cj/result/SqlDateValueFactory.java   |   126 +
+ .../com/mysql/cj/result/SqlTimeValueFactory.java   |   116 +
+ .../mysql/cj/result/SqlTimestampValueFactory.java  |   120 +
+ .../com/mysql/cj/result/StringValueFactory.java    |   158 +
+ .../src/main/doc/connector-j-overview.html         |    18 +
+ .../src/main/doc/mysqlx-overview.html              |    15 +
+ .../mysql/cj/protocol/a/AbstractRowFactory.java    |    53 +
+ .../mysql/cj/protocol/a/BinaryResultsetReader.java |   130 +
+ .../com/mysql/cj/protocol/a/BinaryRowFactory.java  |   155 +
+ .../cj/protocol/a/ColumnDefinitionFactory.java     |    68 +
+ .../cj/protocol/a/ColumnDefinitionReader.java      |   141 +
+ .../mysql/cj/protocol/a/CompressedInputStream.java |   291 +
+ .../cj/protocol/a/CompressedPacketSender.java      |   270 +
+ .../cj/protocol/a/DebugBufferingPacketReader.java  |   148 +
+ .../cj/protocol/a/DebugBufferingPacketSender.java  |   104 +
+ .../protocol/a/MergingColumnDefinitionFactory.java |    66 +
+ .../com/mysql/cj/protocol/a/MultiPacketReader.java |   116 +
+ .../cj/protocol/a/MysqlBinaryValueDecoder.java     |   250 +
+ .../mysql/cj/protocol/a/MysqlTextValueDecoder.java |   374 +
+ .../protocol/a/NativeAuthenticationProvider.java   |   797 +
+ .../mysql/cj/protocol/a/NativeCapabilities.java    |   190 +
+ .../com/mysql/cj/protocol/a/NativeConstants.java   |   195 +
+ .../mysql/cj/protocol/a/NativeMessageBuilder.java  |   151 +
+ .../mysql/cj/protocol/a/NativePacketHeader.java    |    67 +
+ .../mysql/cj/protocol/a/NativePacketPayload.java   |   662 +
+ .../com/mysql/cj/protocol/a/NativeProtocol.java    |  2172 ++
+ .../mysql/cj/protocol/a/NativeServerSession.java   |   555 +
+ .../cj/protocol/a/NativeSocketConnection.java      |   113 +
+ .../java/com/mysql/cj/protocol/a/NativeUtils.java  |   107 +
+ .../com/mysql/cj/protocol/a/PacketSplitter.java    |    72 +
+ .../com/mysql/cj/protocol/a/ResultsetFactory.java  |    73 +
+ .../mysql/cj/protocol/a/ResultsetRowReader.java    |    90 +
+ .../mysql/cj/protocol/a/SimplePacketReader.java    |   134 +
+ .../mysql/cj/protocol/a/SimplePacketSender.java    |    67 +
+ .../mysql/cj/protocol/a/TextResultsetReader.java   |   126 +
+ .../com/mysql/cj/protocol/a/TextRowFactory.java    |    80 +
+ .../cj/protocol/a/TimeTrackingPacketReader.java    |    87 +
+ .../cj/protocol/a/TimeTrackingPacketSender.java    |    74 +
+ .../mysql/cj/protocol/a/TracingPacketReader.java   |   113 +
+ .../mysql/cj/protocol/a/TracingPacketSender.java   |   101 +
+ .../authentication/CachingSha2PasswordPlugin.java  |   164 +
+ .../a/authentication/MysqlClearPasswordPlugin.java |    87 +
+ .../authentication/MysqlNativePasswordPlugin.java  |    92 +
+ .../a/authentication/MysqlOldPasswordPlugin.java   |   163 +
+ .../a/authentication/Sha256PasswordPlugin.java     |   206 +
+ .../cj/protocol/a/result/AbstractBufferRow.java    |    68 +
+ .../protocol/a/result/AbstractResultsetRows.java   |    89 +
+ .../cj/protocol/a/result/BinaryBufferRow.java      |   291 +
+ .../mysql/cj/protocol/a/result/ByteArrayRow.java   |    93 +
+ .../cj/protocol/a/result/NativeResultset.java      |   164 +
+ .../com/mysql/cj/protocol/a/result/OkPacket.java   |   101 +
+ .../cj/protocol/a/result/ResultsetRowsCursor.java  |   284 +
+ .../cj/protocol/a/result/ResultsetRowsStatic.java  |   188 +
+ .../protocol/a/result/ResultsetRowsStreaming.java  |   266 +
+ .../mysql/cj/protocol/a/result/TextBufferRow.java  |   134 +
+ .../mysql/cj/protocol/x/AsyncMessageReader.java    |   529 +
+ .../mysql/cj/protocol/x/AsyncMessageSender.java    |   122 +
+ .../protocol/x/ErrorToFutureCompletionHandler.java |    57 +
+ .../com/mysql/cj/protocol/x/FetchDoneEntity.java   |    42 +
+ .../cj/protocol/x/FetchDoneEntityFactory.java      |    43 +
+ .../mysql/cj/protocol/x/FetchDoneMoreResults.java  |    41 +
+ .../cj/protocol/x/FetchDoneMoreResultsFactory.java |    43 +
+ .../java/com/mysql/cj/protocol/x/FieldFactory.java |   228 +
+ .../com/mysql/cj/protocol/x/MessageConstants.java  |   191 +
+ .../java/com/mysql/cj/protocol/x/Notice.java       |   199 +
+ .../com/mysql/cj/protocol/x/NoticeFactory.java     |    43 +
+ .../java/com/mysql/cj/protocol/x/Ok.java           |    43 +
+ .../java/com/mysql/cj/protocol/x/OkBuilder.java    |    57 +
+ .../java/com/mysql/cj/protocol/x/OkFactory.java    |    43 +
+ .../mysql/cj/protocol/x/ResultMessageListener.java |    85 +
+ .../mysql/cj/protocol/x/StatementExecuteOk.java    |    86 +
+ .../cj/protocol/x/StatementExecuteOkBuilder.java   |   103 +
+ .../cj/protocol/x/StatementExecuteOkFactory.java   |    43 +
+ .../com/mysql/cj/protocol/x/SyncMessageReader.java |   242 +
+ .../com/mysql/cj/protocol/x/SyncMessageSender.java |   120 +
+ .../cj/protocol/x/XAsyncSocketConnection.java      |   145 +
+ .../cj/protocol/x/XAuthenticationProvider.java     |   146 +
+ .../java/com/mysql/cj/protocol/x/XMessage.java     |   195 +
+ .../com/mysql/cj/protocol/x/XMessageBuilder.java   |   925 +
+ .../com/mysql/cj/protocol/x/XMessageHeader.java    |    80 +
+ .../java/com/mysql/cj/protocol/x/XProtocol.java    |   922 +
+ .../com/mysql/cj/protocol/x/XProtocolDecoder.java  |   302 +
+ .../com/mysql/cj/protocol/x/XProtocolError.java    |    89 +
+ .../java/com/mysql/cj/protocol/x/XProtocolRow.java |   158 +
+ .../mysql/cj/protocol/x/XProtocolRowFactory.java   |    44 +
+ .../cj/protocol/x/XProtocolRowInputStream.java     |    92 +
+ .../mysql/cj/protocol/x/XServerCapabilities.java   |   115 +
+ .../com/mysql/cj/protocol/x/XServerSession.java    |   341 +
+ .../cj/protocol/x/XpluginStatementCommand.java     |    43 +
+ .../com/mysql/cj/LocalizedErrorMessages.properties |   908 +
+ .../mysql/cj/configurations/3-0-Compat.properties  |    16 +
+ .../mysql/cj/configurations/clusterBase.properties |     3 +
+ .../mysql/cj/configurations/coldFusion.properties  |    16 +
+ .../mysql/cj/configurations/fullDebug.properties   |     6 +
+ .../configurations/maxPerformance-8-0.properties   |    38 +
+ .../cj/configurations/maxPerformance.properties    |    34 +
+ .../solarisMaxPerformance.properties               |    13 +
+ .../com/mysql/cj/util/TimeZoneMapping.properties   |   475 +
+ .../java/com/mysql/cj/jdbc/ClientInfoProvider.java |   151 +
+ .../java/com/mysql/cj/jdbc/JdbcConnection.java     |   605 +
+ .../com/mysql/cj/jdbc/JdbcPreparedStatement.java   |    78 +
+ .../java/com/mysql/cj/jdbc/JdbcPropertySet.java    |    56 +
+ .../java/com/mysql/cj/jdbc/JdbcStatement.java      |   126 +
+ .../java/com/mysql/cj/jdbc/ParameterBindings.java  |   101 +
+ .../java/com/mysql/cj/jdbc/ha/BalanceStrategy.java |    81 +
+ .../cj/jdbc/ha/LoadBalanceExceptionChecker.java    |    74 +
+ .../mysql/cj/jdbc/ha/LoadBalancedConnection.java   |    46 +
+ .../mysql/cj/jdbc/ha/ReplicationConnection.java    |    60 +
+ .../ConnectionLifecycleInterceptor.java            |   178 +
+ .../cj/jdbc/result/CachedResultSetMetaData.java    |    41 +
+ .../cj/jdbc/result/ResultSetInternalMethods.java   |   161 +
+ .../java/com/mysql/cj/xdevapi/AddResult.java       |    45 +
+ .../java/com/mysql/cj/xdevapi/AddStatement.java    |    69 +
+ .../user-api/java/com/mysql/cj/xdevapi/Client.java |    70 +
+ .../java/com/mysql/cj/xdevapi/ClientFactory.java   |    85 +
+ .../java/com/mysql/cj/xdevapi/Collection.java      |   260 +
+ .../user-api/java/com/mysql/cj/xdevapi/Column.java |   155 +
+ .../java/com/mysql/cj/xdevapi/DatabaseObject.java  |    78 +
+ .../user-api/java/com/mysql/cj/xdevapi/DbDoc.java  |   114 +
+ .../java/com/mysql/cj/xdevapi/DeleteStatement.java |    62 +
+ .../java/com/mysql/cj/xdevapi/DocResult.java       |    36 +
+ .../java/com/mysql/cj/xdevapi/Expression.java      |    61 +
+ .../java/com/mysql/cj/xdevapi/FetchResult.java     |    86 +
+ .../java/com/mysql/cj/xdevapi/FilterParams.java    |   330 +
+ .../java/com/mysql/cj/xdevapi/FindStatement.java   |   154 +
+ .../java/com/mysql/cj/xdevapi/InsertResult.java    |    43 +
+ .../java/com/mysql/cj/xdevapi/InsertStatement.java |    58 +
+ .../java/com/mysql/cj/xdevapi/JsonValue.java       |    46 +
+ .../java/com/mysql/cj/xdevapi/ModifyStatement.java |   132 +
+ .../java/com/mysql/cj/xdevapi/RemoveStatement.java |    63 +
+ .../user-api/java/com/mysql/cj/xdevapi/Result.java |    60 +
+ .../user-api/java/com/mysql/cj/xdevapi/Row.java    |   244 +
+ .../java/com/mysql/cj/xdevapi/RowResult.java       |    58 +
+ .../user-api/java/com/mysql/cj/xdevapi/Schema.java |   153 +
+ .../java/com/mysql/cj/xdevapi/SelectStatement.java |   128 +
+ .../java/com/mysql/cj/xdevapi/Session.java         |   214 +
+ .../java/com/mysql/cj/xdevapi/SessionFactory.java  |   112 +
+ .../java/com/mysql/cj/xdevapi/SqlResult.java       |    50 +
+ .../java/com/mysql/cj/xdevapi/SqlStatement.java    |    36 +
+ .../java/com/mysql/cj/xdevapi/Statement.java       |   139 +
+ .../user-api/java/com/mysql/cj/xdevapi/Table.java  |    99 +
+ .../user-api/java/com/mysql/cj/xdevapi/Type.java   |    37 +
+ .../java/com/mysql/cj/xdevapi/UpdateStatement.java |    84 +
+ .../java/com/mysql/cj/xdevapi/UpdateType.java      |    38 +
+ .../java/com/mysql/cj/xdevapi/Warning.java         |    36 +
+ .../java/com/mysql/cj/xdevapi/XDevAPIError.java    |    62 +
+ .../java/com/mysql/cj/xdevapi/package-info.java    |    36 +
+ .../cj/jdbc/AbandonedConnectionCleanupThread.java  |   244 +
+ .../user-impl/java/com/mysql/cj/jdbc/Blob.java     |   280 +
+ .../java/com/mysql/cj/jdbc/BlobFromLocator.java    |   624 +
+ .../java/com/mysql/cj/jdbc/CallableStatement.java  |  2546 +++
+ .../mysql/cj/jdbc/CallableStatementWrapper.java    |  1935 ++
+ .../com/mysql/cj/jdbc/ClientInfoProviderSP.java    |   169 +
+ .../com/mysql/cj/jdbc/ClientPreparedStatement.java |  1806 ++
+ .../user-impl/java/com/mysql/cj/jdbc/Clob.java     |   271 +
+ .../mysql/cj/jdbc/CommentClientInfoProvider.java   |   106 +
+ .../java/com/mysql/cj/jdbc/ConnectionGroup.java    |   254 +
+ .../com/mysql/cj/jdbc/ConnectionGroupManager.java  |   215 +
+ .../java/com/mysql/cj/jdbc/ConnectionImpl.java     |  2699 +++
+ .../java/com/mysql/cj/jdbc/ConnectionWrapper.java  |  1246 ++
+ .../java/com/mysql/cj/jdbc/DatabaseMetaData.java   |  4962 +++++
+ .../cj/jdbc/DatabaseMetaDataUsingInfoSchema.java   |  1199 +
+ .../user-impl/java/com/mysql/cj/jdbc/Driver.java   |    70 +
+ .../java/com/mysql/cj/jdbc/EscapeProcessor.java    |   509 +
+ .../com/mysql/cj/jdbc/EscapeProcessorResult.java   |    42 +
+ .../java/com/mysql/cj/jdbc/IterateBlock.java       |    81 +
+ .../com/mysql/cj/jdbc/JdbcPropertySetImpl.java     |   103 +
+ .../cj/jdbc/MysqlConnectionPoolDataSource.java     |    61 +
+ .../java/com/mysql/cj/jdbc/MysqlDataSource.java    |   598 +
+ .../com/mysql/cj/jdbc/MysqlDataSourceFactory.java  |   136 +
+ .../com/mysql/cj/jdbc/MysqlParameterMetadata.java  |   203 +
+ .../com/mysql/cj/jdbc/MysqlPooledConnection.java   |   225 +
+ .../java/com/mysql/cj/jdbc/MysqlSQLXML.java        |   619 +
+ .../java/com/mysql/cj/jdbc/MysqlSavepoint.java     |    93 +
+ .../java/com/mysql/cj/jdbc/MysqlXAConnection.java  |   373 +
+ .../java/com/mysql/cj/jdbc/MysqlXADataSource.java  |    82 +
+ .../java/com/mysql/cj/jdbc/MysqlXAException.java   |    72 +
+ .../user-impl/java/com/mysql/cj/jdbc/MysqlXid.java |   119 +
+ .../user-impl/java/com/mysql/cj/jdbc/NClob.java    |    46 +
+ .../com/mysql/cj/jdbc/NonRegisteringDriver.java    |   301 +
+ .../com/mysql/cj/jdbc/ParameterBindingsImpl.java   |   320 +
+ .../mysql/cj/jdbc/PreparedStatementWrapper.java    |   984 +
+ .../com/mysql/cj/jdbc/ServerPreparedStatement.java |   834 +
+ .../java/com/mysql/cj/jdbc/StatementImpl.java      |  2264 ++
+ .../java/com/mysql/cj/jdbc/StatementWrapper.java   |   880 +
+ .../com/mysql/cj/jdbc/SuspendableXAConnection.java |   193 +
+ .../java/com/mysql/cj/jdbc/WrapperBase.java        |   134 +
+ .../java/com/mysql/cj/jdbc/admin/MiniAdmin.java    |   108 +
+ .../java/com/mysql/cj/jdbc/admin/TimezoneDump.java |    85 +
+ .../jdbc/exceptions/CommunicationsException.java   |    83 +
+ .../ConnectionFeatureNotAvailableException.java    |    62 +
+ .../exceptions/MySQLQueryInterruptedException.java |    54 +
+ .../MySQLStatementCancelledException.java          |    55 +
+ .../cj/jdbc/exceptions/MySQLTimeoutException.java  |    55 +
+ .../MySQLTransactionRollbackException.java         |    55 +
+ .../cj/jdbc/exceptions/MysqlDataTruncation.java    |    79 +
+ .../com/mysql/cj/jdbc/exceptions/NotUpdatable.java |    53 +
+ .../exceptions/OperationNotSupportedException.java |    48 +
+ .../cj/jdbc/exceptions/PacketTooBigException.java  |    59 +
+ .../com/mysql/cj/jdbc/exceptions/SQLError.java     |   256 +
+ .../cj/jdbc/exceptions/SQLExceptionsMapping.java   |   133 +
+ .../jdbc/ha/BestResponseTimeBalanceStrategy.java   |   117 +
+ .../mysql/cj/jdbc/ha/FailoverConnectionProxy.java  |   547 +
+ .../jdbc/ha/LoadBalancedAutoCommitInterceptor.java |   153 +
+ .../cj/jdbc/ha/LoadBalancedConnectionProxy.java    |   929 +
+ .../cj/jdbc/ha/LoadBalancedMySQLConnection.java    |    98 +
+ .../mysql/cj/jdbc/ha/MultiHostConnectionProxy.java |   546 +
+ .../mysql/cj/jdbc/ha/MultiHostMySQLConnection.java |   756 +
+ .../cj/jdbc/ha/NdbLoadBalanceExceptionChecker.java |    44 +
+ .../mysql/cj/jdbc/ha/RandomBalanceStrategy.java    |   134 +
+ .../cj/jdbc/ha/ReplicationConnectionGroup.java     |   267 +
+ .../jdbc/ha/ReplicationConnectionGroupManager.java |   206 +
+ .../cj/jdbc/ha/ReplicationConnectionProxy.java     |   704 +
+ .../cj/jdbc/ha/ReplicationMySQLConnection.java     |   264 +
+ .../cj/jdbc/ha/SequentialBalanceStrategy.java      |   164 +
+ .../mysql/cj/jdbc/ha/ServerAffinityStrategy.java   |    79 +
+ .../ha/StandardLoadBalanceExceptionChecker.java    |   130 +
+ .../integration/c3p0/MysqlConnectionTester.java    |   119 +
+ .../jboss/ExtendedMysqlExceptionSorter.java        |    54 +
+ .../jboss/MysqlValidConnectionChecker.java         |    74 +
+ .../interceptors/ResultSetScannerInterceptor.java  |   128 +
+ .../interceptors/ServerStatusDiffInterceptor.java  |   120 +
+ .../SessionAssociationInterceptor.java             |   109 +
+ .../jmx/LoadBalanceConnectionGroupManager.java     |   135 +
+ .../LoadBalanceConnectionGroupManagerMBean.java    |    60 +
+ .../mysql/cj/jdbc/jmx/ReplicationGroupManager.java |   151 +
+ .../cj/jdbc/jmx/ReplicationGroupManagerMBean.java  |    60 +
+ .../jdbc/result/CachedResultSetMetaDataImpl.java   |    48 +
+ .../com/mysql/cj/jdbc/result/ResultSetFactory.java |   148 +
+ .../com/mysql/cj/jdbc/result/ResultSetImpl.java    |  2632 +++
+ .../mysql/cj/jdbc/result/ResultSetMetaData.java    |   443 +
+ .../mysql/cj/jdbc/result/UpdatableResultSet.java   |  2133 ++
+ .../java/com/mysql/cj/jdbc/util/BaseBugReport.java |   250 +
+ .../java/com/mysql/cj/jdbc/util/ResultSetUtil.java |    83 +
+ .../com/mysql/cj/xdevapi/AbstractDataResult.java   |   161 +
+ .../com/mysql/cj/xdevapi/AbstractFilterParams.java |   216 +
+ .../com/mysql/cj/xdevapi/AddResultBuilder.java     |    41 +
+ .../java/com/mysql/cj/xdevapi/AddResultImpl.java   |    54 +
+ .../com/mysql/cj/xdevapi/AddStatementImpl.java     |   114 +
+ .../java/com/mysql/cj/xdevapi/ClientImpl.java      |   393 +
+ .../java/com/mysql/cj/xdevapi/CollectionImpl.java  |   249 +
+ .../java/com/mysql/cj/xdevapi/ColumnImpl.java      |   184 +
+ .../com/mysql/cj/xdevapi/CreateIndexParams.java    |   343 +
+ .../cj/xdevapi/DatabaseObjectDescription.java      |    69 +
+ .../java/com/mysql/cj/xdevapi/DbDocFactory.java    |    53 +
+ .../java/com/mysql/cj/xdevapi/DbDocImpl.java       |   130 +
+ .../com/mysql/cj/xdevapi/DbDocValueFactory.java    |    77 +
+ .../com/mysql/cj/xdevapi/DeleteStatementImpl.java  |    64 +
+ .../java/com/mysql/cj/xdevapi/DocFilterParams.java |    83 +
+ .../com/mysql/cj/xdevapi/DocResultBuilder.java     |    98 +
+ .../java/com/mysql/cj/xdevapi/DocResultImpl.java   |    56 +
+ .../java/com/mysql/cj/xdevapi/ExprParser.java      |  1197 +
+ .../java/com/mysql/cj/xdevapi/ExprUnparser.java    |   345 +
+ .../java/com/mysql/cj/xdevapi/ExprUtil.java        |   351 +
+ .../com/mysql/cj/xdevapi/FilterableStatement.java  |   172 +
+ .../com/mysql/cj/xdevapi/FindStatementImpl.java    |   150 +
+ .../java/com/mysql/cj/xdevapi/InsertParams.java    |   102 +
+ .../com/mysql/cj/xdevapi/InsertResultBuilder.java  |    41 +
+ .../com/mysql/cj/xdevapi/InsertResultImpl.java     |    54 +
+ .../com/mysql/cj/xdevapi/InsertStatementImpl.java  |    76 +
+ .../java/com/mysql/cj/xdevapi/JsonArray.java       |    79 +
+ .../java/com/mysql/cj/xdevapi/JsonLiteral.java     |    50 +
+ .../java/com/mysql/cj/xdevapi/JsonNumber.java      |    77 +
+ .../java/com/mysql/cj/xdevapi/JsonParser.java      |   593 +
+ .../java/com/mysql/cj/xdevapi/JsonString.java      |    93 +
+ .../com/mysql/cj/xdevapi/ModifyStatementImpl.java  |   139 +
+ .../com/mysql/cj/xdevapi/PreparableStatement.java  |   226 +
+ .../com/mysql/cj/xdevapi/RemoveStatementImpl.java  |    86 +
+ .../java/com/mysql/cj/xdevapi/RowFactory.java      |    68 +
+ .../java/com/mysql/cj/xdevapi/RowImpl.java         |   194 +
+ .../com/mysql/cj/xdevapi/RowResultBuilder.java     |   105 +
+ .../java/com/mysql/cj/xdevapi/RowResultImpl.java   |    80 +
+ .../java/com/mysql/cj/xdevapi/SchemaImpl.java      |   189 +
+ .../com/mysql/cj/xdevapi/SelectStatementImpl.java  |   130 +
+ .../java/com/mysql/cj/xdevapi/SessionImpl.java     |   227 +
+ .../java/com/mysql/cj/xdevapi/SqlMultiResult.java  |   159 +
+ .../com/mysql/cj/xdevapi/SqlResultBuilder.java     |   130 +
+ .../java/com/mysql/cj/xdevapi/SqlSingleResult.java |    61 +
+ .../com/mysql/cj/xdevapi/SqlStatementImpl.java     |    84 +
+ .../java/com/mysql/cj/xdevapi/SqlUpdateResult.java |   101 +
+ .../cj/xdevapi/StreamingDocResultBuilder.java      |    94 +
+ .../cj/xdevapi/StreamingRowResultBuilder.java      |    97 +
+ .../cj/xdevapi/StreamingSqlResultBuilder.java      |   126 +
+ .../com/mysql/cj/xdevapi/TableFilterParams.java    |    70 +
+ .../java/com/mysql/cj/xdevapi/TableImpl.java       |   178 +
+ .../java/com/mysql/cj/xdevapi/UpdateParams.java    |    74 +
+ .../java/com/mysql/cj/xdevapi/UpdateResult.java    |    66 +
+ .../com/mysql/cj/xdevapi/UpdateResultBuilder.java  |    68 +
+ .../java/com/mysql/cj/xdevapi/UpdateSpec.java      |   101 +
+ .../com/mysql/cj/xdevapi/UpdateStatementImpl.java  |    82 +
+ .../java/com/mysql/cj/xdevapi/WarningImpl.java     |    61 +
+ .../src/test/config/ssl-test-certs/ca-cert.pem     |    24 +
+ .../src/test/config/ssl-test-certs/ca-key.pem      |    27 +
+ .../src/test/config/ssl-test-certs/ca-truststore   |   Bin 0 -> 1109 bytes
+ .../src/test/config/ssl-test-certs/certs_howto.txt |   122 +
+ .../src/test/config/ssl-test-certs/client-cert.pem |    22 +
+ .../src/test/config/ssl-test-certs/client-key.pem  |    27 +
+ .../src/test/config/ssl-test-certs/client-keystore |   Bin 0 -> 2308 bytes
+ .../src/test/config/ssl-test-certs/mykey.pem       |    15 +
+ .../src/test/config/ssl-test-certs/mykey.pub       |     6 +
+ .../src/test/config/ssl-test-certs/server-cert.pem |    22 +
+ .../src/test/config/ssl-test-certs/server-key.pem  |    27 +
+ .../test/java/com/mysql/cj/ConnectionUrlTest.java  |  1152 +
+ .../src/test/java/com/mysql/cj/MessagesTest.java   |   165 +
+ .../test/java/com/mysql/cj/ServerVersionTest.java  |   145 +
+ .../cj/protocol/a/CompressedPacketSenderTest.java  |   290 +
+ .../protocol/a/DebugBufferingPacketSenderTest.java |    67 +
+ .../cj/protocol/a/MysqlBinaryValueDecoderTest.java |   107 +
+ .../cj/protocol/a/MysqlTextValueDecoderTest.java   |   126 +
+ .../mysql/cj/protocol/a/PacketSenderTestBase.java  |    72 +
+ .../cj/protocol/a/SimplePacketReaderTest.java      |   324 +
+ .../cj/protocol/a/SimplePacketSenderTest.java      |   159 +
+ .../cj/protocol/x/AsyncMessageReaderTest.java      |   409 +
+ .../mysql/cj/protocol/x/SyncMessageReaderTest.java |   186 +
+ .../mysql/cj/protocol/x/SyncMessageWriterTest.java |   108 +
+ .../cj/result/BigDecimalValueFactoryTest.java      |   190 +
+ .../cj/result/BinaryStreamValueFactoryTest.java    |    45 +
+ .../mysql/cj/result/BooleanValueFactoryTest.java   |   184 +
+ .../com/mysql/cj/result/ByteValueFactoryTest.java  |   267 +
+ .../java/com/mysql/cj/result/CommonAsserts.java    |    57 +
+ .../mysql/cj/result/DoubleValueFactoryTest.java    |   229 +
+ .../com/mysql/cj/result/FloatValueFactoryTest.java |   228 +
+ .../mysql/cj/result/IntegerValueFactoryTest.java   |   268 +
+ .../cj/result/LocalDateTimeValueFactoryTest.java   |   253 +
+ .../mysql/cj/result/LocalDateValueFactoryTest.java |   246 +
+ .../mysql/cj/result/LocalTimeValueFactoryTest.java |   238 +
+ .../com/mysql/cj/result/LongValueFactoryTest.java  |   231 +
+ .../com/mysql/cj/result/ShortValueFactoryTest.java |   280 +
+ .../mysql/cj/result/SqlDateValueFactoryTest.java   |   252 +
+ .../mysql/cj/result/SqlTimeValueFactoryTest.java   |   239 +
+ .../cj/result/SqlTimestampValueFactoryTest.java    |   277 +
+ .../mysql/cj/result/StringValueFactoryTest.java    |   167 +
+ .../result/ZeroDateTimeToNullValueFactoryTest.java |   141 +
+ .../java/com/mysql/cj/xdevapi/ExprParserTest.java  |   598 +
+ .../java/com/mysql/cj/xdevapi/JsonDocTest.java     |   763 +
+ .../test/java/testsuite/BaseQueryInterceptor.java  |    63 +
+ .../src/test/java/testsuite/BaseTestCase.java      |  1281 ++
+ .../src/test/java/testsuite/BufferingLogger.java   |    72 +
+ .../src/test/java/testsuite/TestUtils.java         |   124 +
+ .../java/testsuite/UnreliableSocketFactory.java    |   566 +
+ .../src/test/java/testsuite/perf/BasePerfTest.java |   214 +
+ .../java/testsuite/perf/LoadStorePerfTest.java     |   342 +
+ .../java/testsuite/perf/RetrievalPerfTest.java     |   219 +
+ .../testsuite/regression/BlobRegressionTest.java   |   466 +
+ .../testsuite/regression/CachedRowsetTest.java     |   101 +
+ .../CallableStatementRegressionTest.java           |  1560 ++
+ .../regression/CharsetRegressionTest.java          |   218 +
+ .../regression/ConnectionRegressionTest.java       | 11487 ++++++++++
+ .../regression/DataSourceRegressionTest.java       |   619 +
+ .../regression/EscapeProcessorRegressionTest.java  |   116 +
+ .../regression/ExceptionSubclassesTest.java        |    60 +
+ .../regression/MetaDataRegressionTest.java         |  4931 +++++
+ .../regression/MicroPerformanceRegressionTest.java |   475 +
+ .../regression/NonLocalSocketFactory.java          |    42 +
+ .../regression/NumbersRegressionTest.java          |   246 +
+ .../regression/PooledConnectionRegressionTest.java |  1534 ++
+ .../regression/ResultSetRegressionTest.java        |  7148 ++++++
+ .../regression/StatementRegressionTest.java        | 10671 +++++++++
+ .../testsuite/regression/StressRegressionTest.java |   484 +
+ .../testsuite/regression/StringRegressionTest.java |   738 +
+ .../regression/SubqueriesRegressionTest.java       |   161 +
+ .../testsuite/regression/SyntaxRegressionTest.java |  2049 ++
+ .../testsuite/regression/UtilsRegressionTest.java  |   655 +
+ .../src/test/java/testsuite/simple/BlobTest.java   |   256 +
+ .../testsuite/simple/CallableStatementTest.java    |  1858 ++
+ .../test/java/testsuite/simple/CharsetTest.java    |   409 +
+ .../test/java/testsuite/simple/ConnectionTest.java |  2313 ++
+ .../test/java/testsuite/simple/DataSourceTest.java |   333 +
+ .../src/test/java/testsuite/simple/DateTest.java   |   365 +
+ .../testsuite/simple/EscapeProcessingTest.java     |   164 +
+ .../test/java/testsuite/simple/ExceptionsTest.java |   132 +
+ .../test/java/testsuite/simple/MetadataTest.java   |  1846 ++
+ .../test/java/testsuite/simple/MiniAdminTest.java  |    84 +
+ .../testsuite/simple/MultiHostConnectionTest.java  |  1372 ++
+ .../test/java/testsuite/simple/NumbersTest.java    |    81 +
+ .../simple/ReadOnlyCallableStatementTest.java      |   133 +
+ .../test/java/testsuite/simple/ResultSetTest.java  |  1456 ++
+ .../src/test/java/testsuite/simple/SSLTest.java    |    78 +
+ .../testsuite/simple/SequentialIdLeaseTest.java    |   166 +
+ .../testsuite/simple/ServerControllerTest.java     |    87 +
+ .../java/testsuite/simple/SimpleTransformer.java   |    48 +
+ .../java/testsuite/simple/SplitDBdotNameTest.java  |   120 +
+ .../test/java/testsuite/simple/StatementsTest.java |  4001 ++++
+ .../java/testsuite/simple/StringUtilsTest.java     |  1348 ++
+ .../java/testsuite/simple/TestBug57662Logger.java  |    50 +
+ .../testsuite/simple/TestLifecycleInterceptor.java |    84 +
+ .../java/testsuite/simple/TransactionTest.java     |    87 +
+ .../test/java/testsuite/simple/TraversalTest.java  |   205 +
+ .../java/testsuite/simple/UpdatabilityTest.java    |   327 +
+ .../src/test/java/testsuite/simple/UtilsTest.java  |   150 +
+ .../src/test/java/testsuite/simple/XATest.java     |   464 +
+ .../src/test/java/testsuite/x/AsyncTests.java      |    36 +
+ .../test/java/testsuite/x/BaseXDevAPITestCase.java |    61 +
+ .../java/testsuite/x/TestXDevAPIRequirements.java  |   401 +
+ .../java/testsuite/x/devapi/AsyncQueryTest.java    |   300 +
+ .../testsuite/x/devapi/BaseCollectionTestCase.java |    65 +
+ .../java/testsuite/x/devapi/BaseTableTestCase.java |    48 +
+ .../src/test/java/testsuite/x/devapi/BindTest.java |   139 +
+ .../java/testsuite/x/devapi/CollectionAddTest.java |   394 +
+ .../testsuite/x/devapi/CollectionFindTest.java     |  1321 ++
+ .../testsuite/x/devapi/CollectionModifyTest.java   |   962 +
+ .../testsuite/x/devapi/CollectionRemoveTest.java   |   420 +
+ .../java/testsuite/x/devapi/CollectionTest.java    |   684 +
+ .../testsuite/x/devapi/DevApiBaseTestCase.java     |   206 +
+ .../java/testsuite/x/devapi/Ipv6SupportTest.java   |   110 +
+ .../test/java/testsuite/x/devapi/MetadataTest.java |   625 +
+ .../test/java/testsuite/x/devapi/ResultTest.java   |   164 +
+ .../test/java/testsuite/x/devapi/SchemaTest.java   |   222 +
+ .../java/testsuite/x/devapi/SecureSessionTest.java |  1361 ++
+ .../testsuite/x/devapi/SessionFailoverTest.java    |   316 +
+ .../test/java/testsuite/x/devapi/SessionTest.java  |  1659 ++
+ .../java/testsuite/x/devapi/TableDeleteTest.java   |   327 +
+ .../java/testsuite/x/devapi/TableInsertTest.java   |   187 +
+ .../java/testsuite/x/devapi/TableSelectTest.java   |  1170 +
+ .../test/java/testsuite/x/devapi/TableTest.java    |   200 +
+ .../java/testsuite/x/devapi/TableUpdateTest.java   |   334 +
+ .../java/testsuite/x/devapi/TransactionTest.java   |   262 +
+ .../test/java/testsuite/x/devapi/package-info.java |    34 +
+ .../x/internal/InternalXBaseTestCase.java          |   280 +
+ .../testsuite/x/internal/MysqlxSessionTest.java    |   216 +
+ .../testsuite/x/internal/XProtocolAsyncTest.java   |   162 +
+ .../testsuite/x/internal/XProtocolAuthTest.java    |   177 +
+ .../java/testsuite/x/internal/XProtocolTest.java   |   539 +
+ .../java/testsuite/x/internal/package-info.java    |    34 +
+ 663 files changed, 275360 insertions(+)
